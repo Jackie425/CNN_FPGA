@@ -21,7 +21,7 @@ module DWconv_win_gen # (
     output  wire    [7:0]       conv_win_7                                      ,
     output  wire    [7:0]       conv_win_8                                      
 );
-
+ 
 /*
     DWconv_windows_generator
      Function:
