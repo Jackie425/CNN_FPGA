@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module configurable_MAC # (
+module NPUCore # (
     parameter           MAC_IN_NUM              =   9                                    ,
     parameter           MAC_OUT_NUM             =   18                                   ,
     parameter           APM_COL_NUM             =   MAC_OUT_NUM / 2                      ,//9
