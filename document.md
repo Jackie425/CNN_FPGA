@@ -81,5 +81,12 @@ reg cout;
 **输入输出端口：**
 - data path
 - control path
+  
 **由以下部件组成：**
+- *权重输入拓展位宽处理* weight wire in
+- *输入FeatureMap流水处理* aligns inputs with registers
+- *Zin&Pout连线* Z in wire
+- *乘加脉动阵列* APM systolic array
+- *循环累加器* MAC_out accumulating
+- ** MAC out scaling shift
   
