@@ -18,6 +18,7 @@ module row_buffer_8_dual # (
 
 );
 
+
     reg     [8:0]   addr_in;
     reg     [8:0]   addr_out;
     
