@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module maxp # (
+module Maxp # (
     parameter   Length  = 32
 )
 (

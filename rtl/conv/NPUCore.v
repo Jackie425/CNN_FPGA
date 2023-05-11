@@ -15,20 +15,19 @@ module NPUCore # (
     input   wire                rstn                                                        ,
 
 //data path common 
-    input   wire    [BIAS_WIDTH*MAC_OUT_NUM-1:0]                MAC_bias_i                  ,
-    input   wire    [16-1:0]                                    MAC_scale_i                 ,
-    output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_o                  ,
-    output  wire                                                MAC_data_valid_o            ,
+    input   wire    [MAC_IN_NUM*DATA_WIDTH-1:0]                 MAC_data_in                 ,
+    input   wire                                                MAC_data_valid_in           ,
 
-//data path PWconv
-    input   wire    [MAC_IN_NUM*DATA_WIDTH-1:0]                 MAC_data_i                  ,
-    input   wire                                                MAC_data_valid_i            ,
-    input   wire    [MAC_IN_NUM*WEIGHT_WIDTH*MAC_OUT_NUM-1:0]   MAC_weight_i                ,
-    input   wire    [8-1:0]                                     MAC_accumulate_num_i        ,
-    input   wire                                                MAC_weight_valid_i          ,
+    input   wire    [MAC_IN_NUM*WEIGHT_WIDTH*MAC_OUT_NUM-1:0]   MAC_weight_in               ,
+    input   wire                                                MAC_weight_valid_in         ,
 
-//data path DWconv
-    //input   wire    [MAC_IN_WIDTH-1:0]          
+    input   wire    [BIAS_WIDTH*MAC_OUT_NUM-1:0]                MAC_bias_in                 ,
+    input   wire    [16-1:0]                                    MAC_scale_in                ,
+
+    output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,
+    output  wire                                                MAC_data_valid_out          ,
+
+    input   wire    [8-1:0]                                     MAC_accumulate_num_in       ,      
     
 //control path 
     input   wire    [MAC_OUT_NUM-1:0]           adder_rst                                   
@@ -40,12 +39,11 @@ module NPUCore # (
     wire  signed    [8:0]               APM_y_in        [0:MAC_OUT_NUM-1][0:MAC_IN_NUM-1]   ;   
     reg   signed    [23:0]              MAC_out         [0:MAC_OUT_NUM-1]                   ;
     reg   signed    [24-1:0]            scaled_out      [0:MAC_OUT_NUM-1]                   ;
-    reg   signed    [24-1:0]            scaled_out_0    [0:MAC_OUT_NUM-1]                   ;
+    reg   signed    [24-1:0]            scaled_out_d1    [0:MAC_OUT_NUM-1]                  ;
     reg             [1:0]               clip_state      [0:MAC_OUT_NUM-1]                   ;
-    reg             [1:0]               clip_state_0    [0:MAC_OUT_NUM-1]                   ;
     reg   signed    [DATA_WIDTH-1:0]    cliped_out      [0:MAC_OUT_NUM-1]                   ;
     
-    //parameter wire assign
+    //weight wire in
     generate
         genvar p,q;
         for (p = 0; p < MAC_OUT_NUM; p = p + 1)
@@ -54,8 +52,8 @@ module NPUCore # (
             begin
                 assign APM_y_in[p][q] = 
                     {
-                        MAC_weight_i[(p*MAC_IN_NUM*WEIGHT_WIDTH + q*WEIGHT_WIDTH) + WEIGHT_WIDTH-1], //sign-bit
-                        MAC_weight_i[(p*MAC_IN_NUM*WEIGHT_WIDTH + q*WEIGHT_WIDTH) +: WEIGHT_WIDTH]
+                        MAC_weight_in[(p*MAC_IN_NUM*WEIGHT_WIDTH + q*WEIGHT_WIDTH) + WEIGHT_WIDTH-1], //sign-bit
+                        MAC_weight_in[(p*MAC_IN_NUM*WEIGHT_WIDTH + q*WEIGHT_WIDTH) +: WEIGHT_WIDTH]
                     }; 
             end
         end
@@ -81,7 +79,7 @@ module NPUCore # (
         APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
     );
 
-    //Z in reg pipeline
+    //Z in wire
     generate 
         genvar m,n;
         for(m = 0 ; m < MAC_OUT_NUM ; m = m + 1)
@@ -136,34 +134,33 @@ module NPUCore # (
             end
         end
     end
-
+    integer l;
     //MAC out scaling shift
     always @(posedge clk or negedge rstn)
     begin
-        for(i = 0 ; i < MAC_OUT_NUM ; i = i + 1)
+        for(l = 0 ; l < MAC_OUT_NUM ; l = l + 1)
         begin
             if(!rstn)
             begin
-                scaled_out[i]   <= 24'b0;
-                scaled_out_0[i] <= 24'b0;
-                clip_state[i]   <= 2'b00;
-                clip_state_0[i] <= 2'b00;           
+                scaled_out[l]   <= 24'b0;
+                scaled_out_d1[l] <= 24'b0;
+                clip_state[l]   <= 2'b00;          
             end 
             else
             begin
-                scaled_out[i] <= (MAC_out[i] >>> MAC_scale_i);
-                clip_state[i][0] <= (scaled_out[i] < -24'd128);
-                clip_state[i][1] <= (scaled_out[i] >  24'd127);
-                scaled_out_0[i]  <= scaled_out[i];
-                clip_state_0[i]  <= clip_state[i];
-                case (clip_state[i])
-                    2'b00: cliped_out[i] <= scaled_out_0[i][7:0];
-                    2'b01: cliped_out[i] <= -8'd128;
-                    2'b10: cliped_out[i] <=  8'd127;
-                    default: cliped_out[i] <= 8'd0;
+                scaled_out[l] <= (MAC_out[l] >>> MAC_scale_in);//scale register
+                clip_state[l][0] <= (scaled_out[l] < -24'd128);//clipstate register
+                clip_state[l][1] <= (scaled_out[l] >  24'd127);
+                scaled_out_d1[l]  <= scaled_out[l];
+                case (clip_state[l])
+                    2'b00: cliped_out[l] <= scaled_out_d1[l][7:0];
+                    2'b01: cliped_out[l] <= -8'd128;
+                    2'b10: cliped_out[l] <=  8'd127;
+                    default: cliped_out[l] <= 8'd0;
                 endcase
             end
         end
     end
 
+    
 endmodule
