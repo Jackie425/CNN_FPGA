@@ -14,7 +14,7 @@ module NPUCore # (
     input   wire                clk                                                         ,
     input   wire                rstn                                                        ,
 
-//data path common 
+//data path 
     input   wire    [MAC_IN_NUM*DATA_WIDTH-1:0]                 MAC_data_in                 ,
     input   wire                                                MAC_data_valid_in           ,
 
@@ -26,12 +26,35 @@ module NPUCore # (
 
     output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,
     output  wire                                                MAC_data_valid_out          ,
-
-    input   wire    [8-1:0]                                     MAC_accumulate_num_in       ,      
+  
     
 //control path 
-    input   wire    [MAC_OUT_NUM-1:0]           adder_rst                                   
+    input   wire    [MAC_OUT_NUM-1:0]                           current_state               ,
+    input   wire                                                state_update                                
 );
 
+    wire    [8-1 : 0]       MAC_accumulate_num_in   ;
+
+    NPUCore NPUCore_inst(
+        .clk                    (clk                ),
+        .rstn                   (rstn               ),
+        .MAC_data_in            (MAC_data_in        ),
+        .MAC_data_valid_in      (MAC_data_valid_in  ),
+        .MAC_weight_in          (MAC_weight_in      ),
+        .MAC_weight_valid_in    (MAC_weight_valid_in),
+        .MAC_bias_in            (MAC_bias_in        ),
+        .MAC_scale_in           (MAC_scale_in       ),
+        .MAC_data_out           (MAC_data_out       ),
+        .MAC_data_valid_out     (MAC_data_valid_out ),
+        .adder_rst              (adder_rst)            
+    );
+
+
+    ConvCtrl ConvCtrl_inst(
+        .clk(clk),
+        .rstn(rstn),
+        .
+
+    );
 
 endmodule

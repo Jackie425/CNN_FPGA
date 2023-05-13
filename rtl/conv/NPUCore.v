@@ -14,7 +14,7 @@ module NPUCore # (
     input   wire                clk                                                         ,
     input   wire                rstn                                                        ,
 
-//data path common 
+//data path
     input   wire    [MAC_IN_NUM*DATA_WIDTH-1:0]                 MAC_data_in                 ,
     input   wire                                                MAC_data_valid_in           ,
 
@@ -27,10 +27,10 @@ module NPUCore # (
     output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,
     output  wire                                                MAC_data_valid_out          ,
 
-    input   wire    [8-1:0]                                     MAC_accumulate_num_in       ,      
+  //  input   wire    [8-1:0]                                     MAC_accumulate_num_in       ,      
     
 //control path 
-    input   wire    [MAC_OUT_NUM-1:0]           adder_rst                                   
+    input   wire    [MAC_OUT_NUM-1:0]                           adder_rst                                   
 );
 
     wire  signed    [23:0]              APM_z_in        [0:MAC_OUT_NUM-1][0:MAC_IN_NUM-1]   ; 
@@ -101,17 +101,17 @@ module NPUCore # (
                     .MULT_PIPELINE_STAGE   (MULT_PIPELINE_STAGE)
                 )
                 u_APM(
-                    .clk(clk),    
-                    .rstn(rstn),
-                    .low_x(APM_x_in[k]),
-                    .low_y(APM_y_in[2 * j][k]),
-                    .low_z(APM_z_in[2 * j][k]),
-                    .high_x(APM_x_in[k]),
-                    .high_y(APM_y_in[2 * j + 1][k]),
-                    .high_z(APM_z_in[2 * j + 1][k]),
-                    .data_valid(MAC_data_in_valid & MAC_param_in_valid),
-                    .low_p(APM_p_out[2 * j][k]),
-                    .high_p(APM_p_out[2 * j + 1][k])    
+                    .clk        (clk                                    ),    
+                    .rstn       (rstn                                   ),
+                    .low_x      (APM_x_in[k]                            ),
+                    .low_y      (APM_y_in[2 * j][k]                     ),
+                    .low_z      (APM_z_in[2 * j][k]                     ),
+                    .high_x     (APM_x_in[k]                            ),
+                    .high_y     (APM_y_in[2 * j + 1][k]                 ),
+                    .high_z     (APM_z_in[2 * j + 1][k]                 ),
+                    .data_valid (MAC_data_in_valid & MAC_param_in_valid ),
+                    .low_p      (APM_p_out[2 * j][k]                    ),
+                    .high_p     (APM_p_out[2 * j + 1][k]                )    
                 );
             end
         end

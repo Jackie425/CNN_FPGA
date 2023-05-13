@@ -17,15 +17,15 @@ module align_reg_in # (
                      
 );
     //寄存器输入输出冗余导致重复寄存器被优化
-    localparam TOTAL_WIDTH_IN_D1 = TOTAL_WIDTH_IN-8         ;
-    localparam TOTAL_WIDTH_IN_D2 = TOTAL_WIDTH_IN_D1-8      ;
-    localparam TOTAL_WIDTH_IN_D3 = TOTAL_WIDTH_IN_D2-8      ;
-    localparam TOTAL_WIDTH_IN_D4 = TOTAL_WIDTH_IN_D3-8      ;
-    localparam TOTAL_WIDTH_IN_D5 = TOTAL_WIDTH_IN_D4-8      ;
-    localparam TOTAL_WIDTH_IN_D6 = TOTAL_WIDTH_IN_D5-8      ;
-    localparam TOTAL_WIDTH_IN_D7 = TOTAL_WIDTH_IN_D6-8      ;
-    localparam TOTAL_WIDTH_IN_D8 = TOTAL_WIDTH_IN_D7-8      ;
-    //localparam TOTAL_WIDTH_IN_D9 = TOTAL_WIDTH_IN_D8-8      ;
+    localparam TOTAL_WIDTH_IN_D1 = TOTAL_WIDTH_IN - 8           ;
+    localparam TOTAL_WIDTH_IN_D2 = TOTAL_WIDTH_IN_D1 - 8        ;
+    localparam TOTAL_WIDTH_IN_D3 = TOTAL_WIDTH_IN_D2 - 8        ;
+    localparam TOTAL_WIDTH_IN_D4 = TOTAL_WIDTH_IN_D3 - 8        ;
+    localparam TOTAL_WIDTH_IN_D5 = TOTAL_WIDTH_IN_D4 - 8        ;
+    localparam TOTAL_WIDTH_IN_D6 = TOTAL_WIDTH_IN_D5 - 8        ;
+    localparam TOTAL_WIDTH_IN_D7 = TOTAL_WIDTH_IN_D6 - 8        ;
+    localparam TOTAL_WIDTH_IN_D8 = TOTAL_WIDTH_IN_D7 - 8        ;
+    //localparam TOTAL_WIDTH_IN_D9 = TOTAL_WIDTH_IN_D8-8        ;
 
 
 
