@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module NPUCore # (
+module ConvUnit # (
     parameter           MAC_IN_NUM              =   9                                    ,
     parameter           MAC_OUT_NUM             =   18                                   ,
     parameter           APM_COL_NUM             =   MAC_OUT_NUM / 2                      ,//9
@@ -22,7 +22,6 @@ module NPUCore # (
     input   wire                                                MAC_weight_valid_in         ,
 
     input   wire    [BIAS_WIDTH*MAC_OUT_NUM-1:0]                MAC_bias_in                 ,
-    input   wire    [16-1:0]                                    MAC_scale_in                ,
 
     output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,
     output  wire                                                MAC_data_valid_out          ,
