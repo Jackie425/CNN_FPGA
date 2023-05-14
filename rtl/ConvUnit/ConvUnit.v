@@ -46,7 +46,7 @@ module ConvUnit # (
         .MAC_scale_in           (MAC_scale_in       ),
         .MAC_data_out           (MAC_data_out       ),
         .MAC_data_valid_out     (MAC_data_valid_out ),
-        .adder_rst              (adder_rst)            
+        .adder_rst              (adder_rst          )            
     );
 
 
