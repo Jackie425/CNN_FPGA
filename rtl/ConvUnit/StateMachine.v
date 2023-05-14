@@ -4,7 +4,7 @@ module StateMachine(
     input           wire            clk             ,
     input           wire            rstn            ,
 
-    input           wire            state_end       ,
+    input           wire            state_rst       ,
     output          reg     [2:0]   current_state   ,
     output          wire            state_update    
 
@@ -29,28 +29,28 @@ module StateMachine(
 	    next_state = INIT_state;
 	    case(current_state)
 	        INIT_state:begin
-	            if(state_end) begin
+	            if(state_rst) begin
 	                next_state = A_state;
 				end else
 	                next_state = current_state;
 	        end
 
 	        A_state:begin
-	            if(state_end) begin
+	            if(state_rst) begin
 	                next_state = B_state;
 				end else
 	                next_state =current_state;
 	        end
 		
 	        B_state:begin
-	            if(state_end) begin
+	            if(state_rst) begin
 	                next_state = C_state;
 				end else
 	                next_state = current_state;
 	        end
 		
 			C_state:begin
-	            if(state_end) begin
+	            if(state_rst) begin
 	                next_state = A_state;
 				end else
 	                next_state = current_state;

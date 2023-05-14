@@ -48,8 +48,7 @@ module ConvUnit # (
         .MAC_data_valid_out     (MAC_data_valid_out ),
         .adder_rst              (adder_rst          )            
     );
-
-
+    
     ConvCtrl ConvCtrl_inst(
         .clk          (clk          ),
         .rstn         (rstn         ),
