@@ -16,7 +16,6 @@ module state_ctrl(
     localparam  C_state = 3'b011    ;
 
 	reg	  [2:0]		next_state;
-	wire			sclk;
 
 	always @(posedge clk or negedge rstn) begin
 		if(!rstn) begin
