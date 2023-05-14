@@ -18,8 +18,32 @@ module ConvUnit # (
     output  wire                state_rst                   , 
 //control_signal_inner     
     output  wire                adder_rst                   ,
-    output  wire    [3:0]       scale_in                    
+    output  reg     [3:0]       scale_in                    
 );
-    
+    localparam  INIT_state = 3'b000 ;
+    localparam  A_state = 3'b001    ;
+    localparam  B_state = 3'b010    ;
+    localparam  C_state = 3'b011    ;
+
+    localparam  SCALE_A = 4'd1      ;
+    localparam  SCALE_B = 4'd2      ;
+    localparam  SCALE_C = 4'd3      ;
+
+    always @(*) begin
+        case (current_state)
+            INIT_state:begin
+                scale_in = 
+            end
+            A_state:begin
+                scale_in = SCALE_A;
+            end
+            B_state:begin
+                scale_in = SCALE_B;
+            end
+            C_state:begin
+                scale_in = SCALE_C;
+            end
+        endcase
+    end
 
 endmodule
