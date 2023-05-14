@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module state_ctrl(
+module StateMachine(
     input           wire            clk             ,
     input           wire            rstn            ,
 

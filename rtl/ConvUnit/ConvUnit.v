@@ -29,7 +29,7 @@ module ConvUnit # (
     
 //control path 
     input   wire    [2:0]                                       current_state               ,
-    output  wire                                                state_end              
+    output  wire                                                state_rst              
 );
 
     wire                adder_rst    ;
@@ -54,7 +54,7 @@ module ConvUnit # (
         .clk          (clk          ),
         .rstn         (rstn         ),
         .current_state(current_state),
-        .state_end    (state_end    ),
+        .state_end    (state_rst    ),
         .adder_rst    (adder_rst    ),
         .scale_in     (MAC_scale_in )
     );

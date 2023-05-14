@@ -15,7 +15,7 @@ module ConvUnit # (
     input   wire                rstn                        ,
 //state_top
     input   wire    [2:0]       current_state               ,
-    output  wire                state_end                   , 
+    output  wire                state_rst                   , 
 //control_signal_inner     
     output  wire                adder_rst                   ,
     output  wire    [3:0]       scale_in                    
