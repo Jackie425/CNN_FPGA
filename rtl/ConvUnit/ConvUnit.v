@@ -28,11 +28,12 @@ module ConvUnit # (
   
     
 //control path 
-    input   wire    [MAC_OUT_NUM-1:0]                           current_state               ,
-    input   wire                                                state_update                                
+    input   wire    [2:0]                                       current_state               ,
+    output  wire                                                state_end              
 );
 
-    wire    [8-1 : 0]       MAC_accumulate_num_in   ;
+    wire                adder_rst    ;
+    wire    [4-1:0]     MAC_scale_in ;
 
     NPUCore NPUCore_inst(
         .clk                    (clk                ),
@@ -50,10 +51,12 @@ module ConvUnit # (
 
 
     ConvCtrl ConvCtrl_inst(
-        .clk(clk),
-        .rstn(rstn),
-        .
-
+        .clk          (clk          ),
+        .rstn         (rstn         ),
+        .current_state(current_state),
+        .state_end    (state_end    ),
+        .adder_rst    (adder_rst    ),
+        .scale_in     (MAC_scale_in )
     );
 
 endmodule
