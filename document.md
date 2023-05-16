@@ -1,5 +1,7 @@
 # Pango FPGA CNN Accelerator Hardware Architechture
+
 单层网络实现——多层网络片上缓存实现——整个网络调用ddr实现单张图片推理——视频推理
+
 ### rtl文件总树形结构
 - source
   - rtl
@@ -30,8 +32,14 @@
     - fmap.txt
     - param.txt
 
+## 硬件架构特点：
+集成的硬件架构：
+- 乘加矩阵
+- 片上缓存矩阵
+- 分布式控制器
+
 ## 1.NPUCore卷积乘加核心单元
-![NPUCore](\images\NPUCore(PWconv).jpg "NPUCore")
+![Top](\images\TopArchitechture.png "Top")
 **输入输出端口：**
 - data path
   - data_in
@@ -54,3 +62,5 @@
 - *输出移位截断* MAC out scaling shift
 - *输出拼接* output concat
 ## 2.DRM片上存储单元
+
+使能输出寄存器，RAM读取延时两个周期得到数据。
