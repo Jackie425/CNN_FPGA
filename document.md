@@ -1,24 +1,28 @@
 # Pango FPGA CNN Accelerator Hardware Architechture
+单层网络实现——多层网络片上缓存实现——整个网络调用ddr实现单张图片推理——视频推理
 ### rtl文件总树形结构
 - source
   - rtl
     - top.v
-      - DRMCtrlTop.v
-         - BiasCtrl.v
-           - BiasAGU.v
-            - BiasDRM.v
-         - FeatureMapCtrl.v
-           - FeatureMapAGU.v
-            - FeatureMapDRM.v
-         -  WeightCtrl.v
-            - WeightAGU.v
-              - WeightDRM.v
+      - StateMachine.v
+      - BiasMemUnit
+        - BiasDRM.v
+        - BiasCtrl.v
+          - BiasAGU.v  
+      - FeatureMapMemUnit 
+        - FeatureMapDRM.v
+        - FeatureMapCtrl.v
+          - FeatureMapAGU.v
+      - WeightMemUnit
+        - WeightDRM.v
+        - WeightCtrl.v
+          - WeightAGU.v
+      - DRMCtrlTop.v       
       - ConvUnit.v
         - ConvCtrl.v
         - NPUCore.v
           - align_reg_in.v
           - APM.v
-      - StateMachine.v
       - Maxp.v
       - ReLU.v
   - sim
