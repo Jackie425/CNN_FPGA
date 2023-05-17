@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module testbench();
+module NPUTestbench();
 
     parameter   IMG_ROW = 32;
     parameter   IMG_COL = 32;
