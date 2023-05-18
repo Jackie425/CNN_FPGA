@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WeightCtrl #(
+module WeightCtrl # (
     parameter       WR_ADDR_DEPTH           =   10              ,
     parameter       RD_ADDR_DEPTH           =   8               
 )
@@ -15,7 +15,6 @@ module WeightCtrl #(
     output  wire    [WR_ADDR_DEPTH-1:0] addr_wr         ,
     output  wire    [RD_ADDR_DEPTH-1:0] addr_rd         
 );
-
 
 
 endmodule
