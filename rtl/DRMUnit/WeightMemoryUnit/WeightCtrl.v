@@ -2,7 +2,7 @@
 
 module WeightCtrl #(
     parameter       WR_ADDR_DEPTH           =   10              ,
-    parameter       RD_ADDR_DEPTH           =   8               ,
+    parameter       RD_ADDR_DEPTH           =   8               
 )
 (
     input   wire                        clk             ,
