@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WeightMemoryUnit # (
+module WeightMemoryTop # (
     parameter       DDR_RD_WIDTH            =   256          ,
     parameter       WEIGHT_CHANNEL_WIDTH    =   1296
 )
