@@ -38,6 +38,8 @@
 - 片上缓存矩阵
 - 分布式控制器
 
+## 量化分析计算吞吐和内存带宽
+![Roofline](\images\Roofline.png "Roofline")
 ## 1.NPUCore卷积乘加核心单元
 ![Top](\images\TopArchitechture.png "Top")
 **输入输出端口：**
