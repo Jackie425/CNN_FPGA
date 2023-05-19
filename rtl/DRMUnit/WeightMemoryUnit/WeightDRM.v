@@ -24,7 +24,7 @@ module WeightDRM #(
 
 generate
     genvar i;
-    for(i = 0 ; i < DRM_NUM ; i = i + 1) begin:WeightDRM_Array
+    for(i = 0 ; i < DRM_NUM ; i = i + 1) begin:WeightDRMArray
         DRM_WR36_RD144 DRM_WR36_RD144_inst (
             .wr_data(WeightDRM_data_wr[(i*36)+:36]),        // input [35:0]
             .wr_addr(WeightDRM_addr_wr),        // input [9:0]

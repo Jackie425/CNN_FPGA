@@ -59,7 +59,7 @@ module NPUCore # (
     endgenerate
 
     //output concat
-    assign MAC_data_o = {cliped_out[17], cliped_out[16], cliped_out[15],
+    assign MAC_data_out = {cliped_out[17], cliped_out[16], cliped_out[15],
                          cliped_out[14], cliped_out[13], cliped_out[12],
                          cliped_out[11], cliped_out[10], cliped_out[9] ,
                          cliped_out[8] , cliped_out[7] , cliped_out[6] ,
@@ -70,7 +70,7 @@ module NPUCore # (
     align_reg_in #(
         .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
     )
-    u_align_reg_in(
+    align_reg_in_inst(
         .clk(clk)                                       ,
         .rstn(rstn)                                     ,
         .reg_data_in(MAC_data_in)                       ,
@@ -99,7 +99,7 @@ module NPUCore # (
                 APM #(
                     .MULT_PIPELINE_STAGE   (MULT_PIPELINE_STAGE)
                 )
-                u_APM(
+                APM_inst(
                     .clk        (clk                                    ),    
                     .rstn       (rstn                                   ),
                     .low_x      (APM_x_in[k]                            ),

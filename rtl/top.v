@@ -19,6 +19,7 @@ module top (
     wire                state_rst; 
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
+
     WeightMemoryTop # (
         .DDR_RD_WIDTH        (256 )         ,
         .DRM_IN_WIDTH        (324 )         ,
@@ -28,7 +29,7 @@ module top (
         .DRM_NUM             (9   )         
     )
     WeightMemoryTop_inst(
-        .sys_clk            (clk ),
+        .sys_clk            (clk),
         .calc_clk           (clk),
         .rstn               (rstn    ),
         .DDR_data_in        (DDR_data_in        ),
@@ -61,8 +62,8 @@ module top (
         .rstn               (rstn               ),
         .MAC_data_in        (MAC_data_in        ),
         .MAC_data_valid_in  (MAC_data_valid_in  ),
-        .MAC_weight_in      (MAC_weight_in      ),
-        .MAC_weight_valid_in(MAC_weight_valid_in),
+        .MAC_weight_in      (Weight_data      ),
+        .MAC_weight_valid_in(Weight_valid),
         .MAC_bias_in        (MAC_bias_in        ),
         .MAC_data_out       (MAC_data_out       ),
         .MAC_data_valid_out (MAC_data_valid_out ),

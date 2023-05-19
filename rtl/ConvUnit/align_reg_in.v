@@ -1,12 +1,12 @@
 `timescale 1ns / 1ps
 
 module align_reg_in # (
-    parameter           REG_CHANNEL_NUM             =   8'd9                                   ,
-    parameter           DATA_WIDTH_IN               =   4'd8                                    ,
-    parameter           DATA_WIDTH_OUT              =   4'd9                                    ,
+    parameter           REG_CHANNEL_NUM             =   9                                   ,
+    parameter           DATA_WIDTH_IN               =   8                                    ,
+    parameter           DATA_WIDTH_OUT              =   9                                    ,
     parameter           TOTAL_WIDTH_IN              =   REG_CHANNEL_NUM * DATA_WIDTH_IN         ,//80
     parameter           TOTAL_WIDTH_OUT             =   REG_CHANNEL_NUM * DATA_WIDTH_OUT        ,//90
-    parameter           MULT_PIPELINE_STAGE         =   2'd2
+    parameter           MULT_PIPELINE_STAGE         =   2
 )
 (
     input   wire                clk                                                         ,

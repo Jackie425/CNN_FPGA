@@ -16,5 +16,4 @@ module WeightCtrl # (
     output  wire    [RD_ADDR_DEPTH-1:0] addr_rd         
 );
 
-
 endmodule
