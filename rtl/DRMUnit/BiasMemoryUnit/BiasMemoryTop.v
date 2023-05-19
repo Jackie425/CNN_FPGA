@@ -45,6 +45,6 @@ module BiasMemoryTop # (
     );
 
 //output mux
-      assign BiasMem_data_out = bias_out_valid ? rd_data : 288'b0;
+    assign BiasMem_data_out = bias_out_valid ? rd_data : 288'b0;
 
 endmodule
