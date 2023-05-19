@@ -77,14 +77,14 @@ module top (
         .DRM_NUM             (9   )         
     )
     WeightMemoryTop_inst(
-        .sys_clk            (clk),
-        .calc_clk           (clk),
-        .rstn               (rstn    ),
-        .DDR_data_in        (DDR_data_in        ),
-        .DDR_valid_in       (DDR_valid_in       ),
-        .WeightMem_data_out (Weight_data),
-        .WeightMem_valid_out(Weight_valid),
-        .current_state      (current_state      ),
-        .state_rst          (state_rst          )
+        .sys_clk            (clk            ),
+        .calc_clk           (clk            ),
+        .rstn               (rstn           ),
+        .DDR_data_in        (DDR_data_in    ),
+        .DDR_valid_in       (DDR_valid_in   ),
+        .WeightMem_data_out (Weight_data    ),
+        .WeightMem_valid_out(Weight_valid   ), 
+        .current_state      (current_state  ),
+        .state_rst          (state_rst      )
     );
 endmodule
