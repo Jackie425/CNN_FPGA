@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WeightCtrl # (
+module FeatureMapCtrl # (
     parameter       WR_ADDR_DEPTH           =   10              ,
     parameter       RD_ADDR_DEPTH           =   8               
 )

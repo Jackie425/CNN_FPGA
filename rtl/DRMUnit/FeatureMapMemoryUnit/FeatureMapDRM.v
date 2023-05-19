@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WeightDRM #(
+module FeatureMapDRM #(
     parameter   DATA_IN_WIDTH               =   324                 ,
     parameter   DATA_OUT_WIDTH              =   1296                ,
     parameter   DRM_NUM                     =   9                   ,

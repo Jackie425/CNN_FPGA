@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WeightMemoryTop # (
+module FeatureMapMemoryTop # (
     parameter       DDR_RD_WIDTH            =   256             ,
     parameter       DRM_IN_WIDTH            =   324             ,
     parameter       WEIGHT_CHANNEL_WIDTH    =   1296            ,
