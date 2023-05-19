@@ -19,7 +19,7 @@ module top (
     wire                state_rst; 
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
-
+    wire                MAC_bias_valid_in;
 
     StateMachine StateMachine_inst(
         .clk          (clk),
@@ -43,9 +43,10 @@ module top (
         .rstn               (rstn               ),
         .MAC_data_in        (MAC_data_in        ),
         .MAC_data_valid_in  (MAC_data_valid_in  ),
-        .MAC_weight_in      (Weight_data      ),
-        .MAC_weight_valid_in(Weight_valid),
+        .MAC_weight_in      (Weight_data        ),
+        .MAC_weight_valid_in(Weight_valid       ),
         .MAC_bias_in        (MAC_bias_in        ),
+        .MAC_bias_valid_in  (MAC_bias_valid_in  ),
         .MAC_data_out       (MAC_data_out       ),
         .MAC_data_valid_out (MAC_data_valid_out ),
         .current_state      (current_state      ),
@@ -60,7 +61,7 @@ module top (
         .clk              (clk          ),
         .rstn             (rstn         ),
         .BiasMem_data_out (MAC_bias_in  ),
-        .BiasMem_valid_out(             ),
+        .BiasMem_valid_out(MAC_bias_valid_in),
         .adder_rst        (adder_rst    ),
         .current_state    (current_state),
         .state_rst        (state_rst    )
