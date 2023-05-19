@@ -1,0 +1,14 @@
+"filename", "language", "Verilog", "comment", "blank", "total"
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\ControlUnit\StateMachine.v", "Verilog", -1, 0, 0, -1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\BiasMemoryUnit\BiasAGU.v", "Verilog", 0, 0, -1, -1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\FeatureMapMemoryUnit\FeatureMapAGU.v", "Verilog", 0, 0, -1, -1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\FeatureMapMemoryUnit\FeatureMapCtrl.v", "Verilog", 14, 3, 3, 20
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\FeatureMapMemoryUnit\FeatureMapDRM.v", "Verilog", 38, 2, 4, 44
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\FeatureMapMemoryUnit\FeatureMapMemoryTop.v", "Verilog", 69, 7, 3, 79
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\MemoryCtrl.v", "Verilog", 0, 0, 1, 1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\MemoryCtrlTop.v", "Verilog", 0, 0, -1, -1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\WeightMemoryUnit\WeightAGU.v", "Verilog", 0, 0, -1, -1
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\WeightMemoryUnit\WeightCtrl.v", "Verilog", 14, 3, 3, 20
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\DRMUnit\WeightMemoryUnit\WeightMemoryTop.v", "Verilog", 53, 5, 0, 58
+"e:\2023IC\rtl_workspace\cnn_fpga\source\rtl\top.v", "Verilog", 65, 1, 9, 75
+"Total", "-", 252, 21, 19, 292
