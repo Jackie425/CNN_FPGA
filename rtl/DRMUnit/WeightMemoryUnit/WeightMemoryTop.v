@@ -10,7 +10,7 @@ module WeightMemoryTop # (
 )
 (
     input  wire             sys_clk                                 ,//system clk 100M
-    input  wire             calc_clk                                ,//MAC clk 200M/100M
+    input  wire             calc_clk                                ,//MAC clk 200M(100M)
     input  wire             rstn                                    ,
 //data path
     input  wire     [DDR_RD_WIDTH-1:0]          DDR_data_in         ,
@@ -37,7 +37,7 @@ module WeightMemoryTop # (
         .NUM_IN   (81),
         .NUM_OUT  (64)
     )
-    u_WidthConverter(
+    WidthConverter_inst(
         .clk      (sys_clk),
         .rstn     (rstn),
         .data_in  (DDR_data_in),
@@ -53,7 +53,7 @@ module WeightMemoryTop # (
         .WR_ADDR_DEPTH (WR_ADDR_DEPTH),
         .RD_ADDR_DEPTH (RD_ADDR_DEPTH)
     )
-    u_WeightDRM(
+    WeightDRM_inst(
         .wr_clk            (sys_clk),
         .rd_clk            (calc_clk),
         .rstn              (rstn),
@@ -69,7 +69,7 @@ module WeightMemoryTop # (
         .WR_ADDR_DEPTH(WR_ADDR_DEPTH),
         .RD_ADDR_DEPTH(RD_ADDR_DEPTH)
     )
-    (
+    WeightCtrl_inst(
         .clk          (sys_clk),
         .rstn         (rstn),
         .current_state(current_state),

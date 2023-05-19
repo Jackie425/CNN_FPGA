@@ -5,8 +5,7 @@ module StateMachine(
     input           wire            rstn            ,
 
     input           wire            state_rst       ,
-    output          reg     [2:0]   current_state   ,
-    output          wire            state_update    
+    output          reg     [2:0]   current_state    
 
 );
 

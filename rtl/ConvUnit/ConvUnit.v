@@ -53,7 +53,7 @@ module ConvUnit # (
         .clk          (clk          ),
         .rstn         (rstn         ),
         .current_state(current_state),
-        .state_end    (state_rst    ),
+        .state_rst    (state_rst    ),
         .adder_rst    (adder_rst    ),
         .scale_in     (MAC_scale_in )
     );

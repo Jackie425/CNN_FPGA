@@ -16,7 +16,7 @@ module ConvCtrl # (
 //state_top
     input   wire    [2:0]       current_state               ,
     output  wire                state_rst                   , 
-//control_signal_conv     
+//control signal inner conv      
     output  wire                adder_rst                   ,
     output  reg     [3:0]       scale_in                    
 );
