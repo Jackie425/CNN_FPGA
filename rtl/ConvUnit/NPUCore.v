@@ -22,6 +22,8 @@ module NPUCore # (
     input   wire                                                MAC_weight_valid_in         ,
 
     input   wire    [BIAS_WIDTH*MAC_OUT_NUM-1:0]                MAC_bias_in                 ,
+    input   wire                                                MAC_bias_valid_in           , 
+    
     input   wire    [4-1:0]                                     MAC_scale_in                ,
 
     output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,

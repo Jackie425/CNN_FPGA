@@ -41,7 +41,7 @@
 ## 量化分析计算吞吐和内存带宽
 ![Roofline](\images\Roofline.png "Roofline")
 ## 1.NPUCore卷积乘加核心单元
-![Top](\images\TopArchitechture.png "Top")
+![Top](\images\TopArchitechture.jpg "Top")
 **输入输出端口：**
 - data path
   - data_in

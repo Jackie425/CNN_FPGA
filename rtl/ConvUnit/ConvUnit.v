@@ -22,6 +22,7 @@ module ConvUnit # (
     input   wire                                                MAC_weight_valid_in         ,
 
     input   wire    [BIAS_WIDTH*MAC_OUT_NUM-1:0]                MAC_bias_in                 ,
+    input   wire                                                MAC_bias_valid_in            ,
 
     output  wire    [MAC_OUT_NUM*DATA_WIDTH-1:0]                MAC_data_out                ,
     output  wire                                                MAC_data_valid_out          ,
@@ -29,7 +30,7 @@ module ConvUnit # (
     
 //control path 
     input   wire    [2:0]                                       current_state               ,
-    output  wire                                                state_rst              
+    output  wire                                                state_rst                   
 );
 
     wire                adder_rst    ;
@@ -43,6 +44,7 @@ module ConvUnit # (
         .MAC_weight_in          (MAC_weight_in      ),
         .MAC_weight_valid_in    (MAC_weight_valid_in),
         .MAC_bias_in            (MAC_bias_in        ),
+        .MAC_bias_valid_in      (MAC_bias_valid_in  ),
         .MAC_scale_in           (MAC_scale_in       ),
         .MAC_data_out           (MAC_data_out       ),
         .MAC_data_valid_out     (MAC_data_valid_out ),

@@ -20,25 +20,6 @@ module top (
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
 
-    WeightMemoryTop # (
-        .DDR_RD_WIDTH        (256 )         ,
-        .DRM_IN_WIDTH        (324 )         ,
-        .WEIGHT_CHANNEL_WIDTH(1296)         ,
-        .WR_ADDR_DEPTH       (10  )         ,
-        .RD_ADDR_DEPTH       (8   )         ,
-        .DRM_NUM             (9   )         
-    )
-    WeightMemoryTop_inst(
-        .sys_clk            (clk),
-        .calc_clk           (clk),
-        .rstn               (rstn    ),
-        .DDR_data_in        (DDR_data_in        ),
-        .DDR_valid_in       (DDR_valid_in       ),
-        .WeightMem_data_out (Weight_data),
-        .WeightMem_valid_out(Weight_valid),
-        .current_state      (current_state      ),
-        .state_rst          (state_rst          )
-    );
 
     StateMachine StateMachine_inst(
         .clk          (clk),
@@ -71,5 +52,38 @@ module top (
         .state_rst          (state_rst          )
     );
 
+    BiasMemoryTop # (
+        .BIAS_CHANNEL_WIDTH(288),
+        .RD_ADDR_DEPTH     (9  )
+    )
+    BiasMemoryTop_inst(
+        .clk              (clk          ),
+        .rstn             (rstn         ),
+        .BiasMem_data_out (MAC_bias_in  ),
+        .BiasMem_valid_out(             ),
+        .adder_rst        (adder_rst    ),
+        .current_state    (current_state),
+        .state_rst        (state_rst    )
+    );
 
+    
+    WeightMemoryTop # (
+        .DDR_RD_WIDTH        (256 )         ,
+        .DRM_IN_WIDTH        (324 )         ,
+        .WEIGHT_CHANNEL_WIDTH(1296)         ,
+        .WR_ADDR_DEPTH       (10  )         ,
+        .RD_ADDR_DEPTH       (8   )         ,
+        .DRM_NUM             (9   )         
+    )
+    WeightMemoryTop_inst(
+        .sys_clk            (clk),
+        .calc_clk           (clk),
+        .rstn               (rstn    ),
+        .DDR_data_in        (DDR_data_in        ),
+        .DDR_valid_in       (DDR_valid_in       ),
+        .WeightMem_data_out (Weight_data),
+        .WeightMem_valid_out(Weight_valid),
+        .current_state      (current_state      ),
+        .state_rst          (state_rst          )
+    );
 endmodule
