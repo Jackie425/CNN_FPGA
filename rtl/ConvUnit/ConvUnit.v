@@ -36,7 +36,17 @@ module ConvUnit # (
     wire                adder_rst    ;
     wire    [4-1:0]     MAC_scale_in ;
 
-    NPUCore NPUCore_inst(
+    NPUCore # (
+        .MAC_IN_NUM         (MAC_IN_NUM         ),
+        .MAC_OUT_NUM        (MAC_OUT_NUM        ),
+        .APM_COL_NUM        (APM_COL_NUM        ),
+        .APM_ROW_NUM        (APM_ROW_NUM        ),
+        .DATA_WIDTH         (DATA_WIDTH         ),
+        .WEIGHT_WIDTH       (WEIGHT_WIDTH       ),
+        .BIAS_WIDTH         (BIAS_WIDTH         ),
+        .MULT_PIPELINE_STAGE(MULT_PIPELINE_STAGE)
+    )
+    NPUCore_inst(
         .clk                    (clk                ),
         .rstn                   (rstn               ),
         .MAC_data_in            (MAC_data_in        ),
@@ -51,7 +61,17 @@ module ConvUnit # (
         .adder_rst              (adder_rst          )            
     );
     
-    ConvCtrl ConvCtrl_inst(
+    ConvCtrl # (
+        .MAC_IN_NUM         (MAC_IN_NUM         ),
+        .MAC_OUT_NUM        (MAC_OUT_NUM        ),
+        .APM_COL_NUM        (APM_COL_NUM        ),
+        .APM_ROW_NUM        (APM_ROW_NUM        ),
+        .DATA_WIDTH         (DATA_WIDTH         ),
+        .WEIGHT_WIDTH       (WEIGHT_WIDTH       ),
+        .BIAS_WIDTH         (BIAS_WIDTH         ),
+        .MULT_PIPELINE_STAGE(MULT_PIPELINE_STAGE)
+    )
+    ConvCtrl_inst(
         .clk          (clk          ),
         .rstn         (rstn         ),
         .current_state(current_state),
