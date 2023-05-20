@@ -61,7 +61,6 @@ module WeightMemoryTop # (
         .WeightDRM_valid_wr(DRM_valid_in),
         .WeightDRM_addr_wr (addr_wr),
         .WeightDRM_data_rd (WeightMem_data_out),
-        .WeightDRM_valid_rd(WeightMem_valid_out),
         .WeightDRM_addr_rd (addr_rd)
     );
 //Weight Control Unit
@@ -74,6 +73,7 @@ module WeightMemoryTop # (
         .rstn         (rstn),
         .current_state(current_state),
         .state_rst    (state_rst),
+        .WeightDRM_valid_rd(WeightMem_valid_out),
         .addr_wr      (addr_wr),
         .addr_rd      (addr_rd)
     );

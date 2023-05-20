@@ -17,7 +17,6 @@ module WeightDRM #(
     input   wire    [WR_ADDR_DEPTH-1:0]     WeightDRM_addr_wr   ,
 //channel out
     output  wire    [DATA_OUT_WIDTH-1:0]    WeightDRM_data_rd   ,
-    output  wire                            WeightDRM_valid_rd  ,
     output  wire    [RD_ADDR_DEPTH-1:0]     WeightDRM_addr_rd
 
 );

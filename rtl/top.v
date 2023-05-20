@@ -63,7 +63,6 @@ module top (
         .rstn             (rstn         ),
         .BiasMem_data_out (Bias_data  ),
         .BiasMem_valid_out(Bias_valid),
-        .adder_rst        (adder_rst    ),
         .current_state    (current_state),
         .state_rst        (state_rst    )
     );

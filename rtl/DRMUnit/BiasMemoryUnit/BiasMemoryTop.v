@@ -13,22 +13,24 @@ module BiasMemoryTop # (
     output wire                                 BiasMem_valid_out   ,
 
 //control path
-    input  wire                                 adder_rst           ,
     input  wire     [2:0]                       current_state       ,
     output wire                                 state_rst           
 );
 
 //control path inner
-    wire    [RD_ADDR_DEPTH-1:0]     addr_rd;
-    
+    wire    [RD_ADDR_DEPTH-1:0]         addr_rd;
+    wire    [BIAS_CHANNEL_WIDTH-1:0]    data_rd;
 //BiasDRM ROM IP Block 
-    DRM_ROM_W288_A512 DRM_ROM_W288_A512_inst (
-        .addr(addr_rd),          // input [8:0]
-        .clk(clk),            // input
-        .clk_en(1'b1),      // input
-        .rst(~rstn),            // input
-        .rd_data(rd_data)     // output [287:0]
-      );
+   BiasDRM #(
+        .BIAS_CHANNEL_WIDTH(BIAS_CHANNEL_WIDTH),
+        .RD_ADDR_DEPTH     (RD_ADDR_DEPTH     )
+   )
+   BiasDRM_inst(
+        .clk    (clk),
+        .rstn   (rstn),
+        .addr_rd(addr_rd),
+        .data_rd(data_rd)
+   );
 
 //Weight Control Unit
     BiasCtrl #(
@@ -45,6 +47,7 @@ module BiasMemoryTop # (
     );
 
 //output mux
-    assign BiasMem_data_out = bias_out_valid ? rd_data : 288'b0;
+    assign BiasMem_data_out = bias_out_valid ? data_rd : 288'b0;
+
 
 endmodule
