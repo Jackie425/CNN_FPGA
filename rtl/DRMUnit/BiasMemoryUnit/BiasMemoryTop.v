@@ -21,17 +21,23 @@ module BiasMemoryTop # (
     wire    [RD_ADDR_DEPTH-1:0]         addr_rd;
     wire    [BIAS_CHANNEL_WIDTH-1:0]    data_rd;
 //BiasDRM ROM IP Block 
-   BiasDRM #(
-        .BIAS_CHANNEL_WIDTH(BIAS_CHANNEL_WIDTH),
-        .RD_ADDR_DEPTH     (RD_ADDR_DEPTH     )
-   )
-   BiasDRM_inst(
-        .clk    (clk),
-        .rstn   (rstn),
-        .addr_rd(addr_rd),
-        .data_rd(data_rd)
-   );
-
+   //BiasDRM #(
+   //     .BIAS_CHANNEL_WIDTH(BIAS_CHANNEL_WIDTH),
+   //     .RD_ADDR_DEPTH     (RD_ADDR_DEPTH     )
+   //)
+   //BiasDRM_inst(
+   //     .clk    (clk),
+   //     .rstn   (rstn),
+   //     .addr_rd(addr_rd),
+   //     .data_rd(data_rd)
+   //);
+   DRM_ROM_W288_A512 DRM_ROM_W288_A512_inst (
+    .addr(addr_rd),          // input [8:0]
+    .clk(clk),            // input
+    .clk_en(1'b1),      // input
+    .rst(~rstn),            // input
+    .rd_data(data_rd)     // output [287:0]
+  );
 //Weight Control Unit
     BiasCtrl #(
         .RD_ADDR_DEPTH(RD_ADDR_DEPTH)

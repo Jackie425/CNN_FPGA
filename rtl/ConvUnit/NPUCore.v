@@ -89,7 +89,7 @@ module NPUCore # (
             begin:row_wire
                 assign APM_z_in[m][n] = APM_p_out[m][n - 1];
             end
-            assign APM_z_in[m][0] = 24'b0;
+            assign APM_z_in[m][0] = MAC_bias_in[m*BIAS_WIDTH+:BIAS_WIDTH];
         end
     endgenerate
     

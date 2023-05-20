@@ -17,7 +17,7 @@ module WidthConverter # (
     output  reg                     valid_out   
 );
     reg     [CNT_WIDTH-1:0]     cnt         ;
-    reg     [WIDTH_OUT-1:0]     data_buffer ;
+    reg     [WIDTH_OUT-1:0]     data_buffer ;//Only 320 bits are actually needed for concat 
 
     always @(posedge clk or negedge rstn) begin
         if (!rstn) begin

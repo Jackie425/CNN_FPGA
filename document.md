@@ -34,26 +34,16 @@
 
 ## 硬件架构特点：
 集成的硬件架构：
-- 乘加矩阵
+- 为DW和PW定制的乘加矩阵
 - 片上缓存矩阵
-- 分布式控制器
-
+- 分布式块控制器
+- 总控制器
+![Top](\images\TopArchitechture.jpg "Top")
 ## 量化分析计算吞吐和内存带宽
 ![Roofline](\images\Roofline.png "Roofline")
 ## 1.NPUCore卷积乘加核心单元
-![Top](\images\TopArchitechture.jpg "Top")
-**输入输出端口：**
-- data path
-  - data_in
-  - data_valid_in
-  - weight_in
-  - weight_valid_in
-  - bias_in
-  - scale_in
-  - data_out
-  - data_valid_out
-- control path
-  - adder_rst
+
+
 
 **由以下部件组成：**
 - *权重输入拓展位宽处理* weight wire in
