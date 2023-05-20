@@ -33,11 +33,11 @@
     - param.txt
 
 ## 硬件架构特点：
-集成的硬件架构：
-- 为DW和PW定制的乘加矩阵
-- 片上缓存矩阵
-- 分布式块控制器
-- 总控制器
+#### 集成的硬件架构：
+##### - 为DW和PW定制的乘加矩阵
+##### - 可自由配置通道的片上缓存矩阵（未完成）
+##### - 分布式块控制器
+##### - 模型状态总控制器
 ![Top](\images\TopArchitechture.jpg "Top")
 ## 量化分析计算吞吐和内存带宽
 ![Roofline](\images\Roofline.png "Roofline")
@@ -54,5 +54,3 @@
 - *输出移位截断* MAC out scaling shift
 - *输出拼接* output concat
 ## 2.DRM片上存储单元
-
-使能输出寄存器，RAM读取延时两个周期得到数据。
