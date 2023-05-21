@@ -30,6 +30,7 @@ module WeightMemoryTop # (
 //control path inner
     wire    [WR_ADDR_DEPTH-1:0]     addr_wr;
     wire    [RD_ADDR_DEPTH-1:0]     addr_rd;
+    wire                            cvt_rstn;
 //Width Converter from DDR_RD_256 to DRM_WR_324
     WidthConverter # (
         .WIDTH_IN (DDR_RD_WIDTH),
@@ -39,7 +40,7 @@ module WeightMemoryTop # (
     )
     WidthConverter_inst(
         .clk      (sys_clk),
-        .rstn     (rstn),
+        .rstn     (cvt_rstn&rstn),
         .data_in  (DDR_data_in),
         .valid_in (DDR_valid_in),
         .data_out (DRM_data_in),
@@ -74,6 +75,7 @@ module WeightMemoryTop # (
         .current_state(current_state),
         .state_rst    (state_rst),
         .WeightDRM_valid_rd(WeightMem_valid_out),
+        .cvt_rstn     (cvt_rstn),
         .addr_wr      (addr_wr),
         .addr_rd      (addr_rd)
     );

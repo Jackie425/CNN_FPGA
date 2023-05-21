@@ -13,6 +13,7 @@ module WeightCtrl # (
     output  wire                        state_rst           ,
     output  wire                        WeightDRM_valid_rd  ,
 //control path inner
+    output  wire                        cvt_rstn            ,     
     output  wire    [WR_ADDR_DEPTH-1:0] addr_wr             ,
     output  wire    [RD_ADDR_DEPTH-1:0] addr_rd         
 );
