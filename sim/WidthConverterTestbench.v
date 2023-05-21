@@ -29,7 +29,7 @@ always begin
     #10;
 end
 
-WidthConverter dut(
+WeightWidthConverter dut(
     .clk      (clk),
     .rstn     (rstn),
     .data_in  (data_in),

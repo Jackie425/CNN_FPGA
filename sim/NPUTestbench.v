@@ -193,7 +193,7 @@ module NPUTestbench();
         end
     end
     
-    MAC dut(
+    NPUCore dut(
         .clk(clk),
         .rstn(rstn),
         .MAC_data_in(data_in),       
