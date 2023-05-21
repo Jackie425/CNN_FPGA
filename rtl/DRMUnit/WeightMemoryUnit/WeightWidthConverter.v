@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module WidthConverter # (
+module WeightWidthConverter # (
     parameter   WIDTH_IN    =   256                 ,
     parameter   WIDTH_OUT   =   324                 ,
     parameter   NUM_IN      =   81                  ,

@@ -32,13 +32,13 @@ module WeightMemoryTop # (
     wire    [RD_ADDR_DEPTH-1:0]     addr_rd;
     wire                            cvt_rstn;
 //Width Converter from DDR_RD_256 to DRM_WR_324
-    WidthConverter # (
+    WeightWidthConverter # (
         .WIDTH_IN (DDR_RD_WIDTH),
         .WIDTH_OUT(DRM_IN_WIDTH),
         .NUM_IN   (81),
         .NUM_OUT  (64)
     )
-    WidthConverter_inst(
+    WeightWidthConverter_inst(
         .clk      (sys_clk),
         .rstn     (cvt_rstn&rstn),
         .data_in  (DDR_data_in),
