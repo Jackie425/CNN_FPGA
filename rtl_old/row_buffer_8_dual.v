@@ -44,7 +44,7 @@ module row_buffer_8_dual # (
 
     shift_mem_8_dual shift_mem_inst (
         .wr_data({din_0,din_1}),        // input [15:0]
-        .wr_addr(addr_in),        // input [8:0]
+        .wr_addr(addr_in),              // input [8:0]
         .wr_en(wr_en),            // input
         .wr_clk(clk),          // input
         .wr_clk_en(1'b1),    // input
