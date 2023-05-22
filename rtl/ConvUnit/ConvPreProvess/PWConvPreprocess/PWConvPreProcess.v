@@ -20,7 +20,7 @@ module PWConvPreProcess # (
         if(!rstn) begin
             cnt <= 1'b0;
         end else begin
-            cnt <= cnt + 1'b1;
+            cnt <= ~cnt;
         end
     end
 

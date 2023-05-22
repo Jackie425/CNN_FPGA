@@ -34,11 +34,13 @@ module ConvUnit # (
     input   wire    [2:0]                                       current_state               ,
     output  wire                                                state_rst                   
 );
-
+    //control path inner
     wire                                                adder_rst           ;
     wire    [4-1:0]                                     Conv_scale_in       ;
     wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl       ;
     wire                                                buff_len_rst        ;
+    wire                                                PW_mode             ;
+    //data path inner
     wire    [CONV_OUT_NUM*CONV_IN_NUM*DATA_WIDTH-1:0]   NPU_data_in         ; 
     wire                                                NPU_data_valid_in   ;  
 

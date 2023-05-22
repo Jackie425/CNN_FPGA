@@ -36,43 +36,41 @@ module ConvPreProcess # (
         .OUT_CHANNEL_NUM(CONV_OUT_NUM ),
         .BUFF_LEN(BUFF_LEN ),
         .ROW_BUFFER_DEPTH (ROW_BUFFER_DEPTH )
-      )
-      DWConvPreProcess_inst (
-        .clk (clk ),
-        .rstn (rstn ),
-        .data_in (data_in ),
-        .valid_in (valid_in ),
-        .win_reg (win_reg ),
-        .valid_out (valid_out ),
-        .buff_len_ctrl (buff_len_ctrl ),
-        .buff_len_rst  ( buff_len_rst)
-      );
+    )
+    DWConvPreProcess_inst (
+      .clk (clk ),
+      .rstn (rstn ),
+      .data_in (data_in ),
+      .valid_in (valid_in ),
+      .win_reg (win_reg ),
+      .valid_out (valid_out ),
+      .buff_len_ctrl (buff_len_ctrl ),
+      .buff_len_rst  ( buff_len_rst)
+    );
 
-      PWConvPreProcess # (
-        .DATA_WIDTH    (DATA_WIDTH),
-        .IN_CHANNEL    (CONV_IN_NUM),
-        .OUT_CHANNEL   (CONV_OUT_NUM),
-        .TOTAL_IN_WIDTH(DATA_WIDTH*CONV_IN_NUM),
-        .TOTAL_PW_WIDTH(DATA_WIDTH*CONV_OUT_NUM)
-      )
-      PWConvPreProcess_inst (
-        .clk (clk ),
-        .rstn (rstn ),
-        .data_in (data_in ),
-        .data_out  ( PW_data_out)
-      );
+    PWConvPreProcess # (
+      .DATA_WIDTH    (DATA_WIDTH),
+      .IN_CHANNEL    (CONV_IN_NUM),
+      .OUT_CHANNEL   (CONV_OUT_NUM)
+    )
+    PWConvPreProcess_inst (
+      .clk        (clk ),
+      .rstn       (rstn ),
+      .data_in    (data_in ),
+      .data_out   (PW_data_out)
+    );
 
-      align_reg_in #(
-        .REG_IN_CHANNEL_NUM(9)          ,
-        .REG_OUT_CHANNEL_NUM(18)        ,
-        .DATA_WIDTH_IN  (8)             
-      )
-      align_reg_in_inst(
-          .clk(clk)                                       ,
-          .rstn(rstn)                                     ,
-          .reg_data_in(reg_data_in)                       ,
-          .reg_data_out(data_out)                             
-      );
-      //PW & DW Mode MUX
-      assign reg_data_in = PW_mode ? {18{PW_data_out}} : win_reg;
+    align_reg_in #(
+      .REG_IN_CHANNEL_NUM(9)          ,
+      .REG_OUT_CHANNEL_NUM(18)        ,
+      .DATA_WIDTH_IN  (8)             
+    )
+    align_reg_in_inst(
+        .clk(clk)                                       ,
+        .rstn(rstn)                                     ,
+        .reg_data_in(reg_data_in)                       ,
+        .reg_data_out(data_out)                             
+    );
+    //PW & DW Mode MUX
+    assign reg_data_in = PW_mode ? {18{PW_data_out}} : win_reg;
 endmodule

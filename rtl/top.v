@@ -87,4 +87,18 @@ module top (
         .current_state      (current_state  ),
         .state_rst          (state_rst      )
     );
+
+    DRM_W144_D13 FeatureMapMem_inst (
+        .wr_data(Conv_data_out),        // input [143:0]
+        .wr_addr(wr_addr),        // input [12:0]
+        .wr_en(Conv_data_valid_out),            // input
+        .wr_clk(clk),          // input
+        .wr_clk_en(1'b1),    // input
+        .wr_rst(~rstn),          // input
+        .rd_addr(rd_addr),        // input [12:0]
+        .rd_data(Conv_data_in),        // output [143:0]
+        .rd_clk(clk),          // input
+        .rd_clk_en(1'b1),    // input
+        .rd_rst(~rstn)           // input
+    );
 endmodule
