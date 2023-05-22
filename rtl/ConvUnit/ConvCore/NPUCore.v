@@ -74,7 +74,7 @@ module NPUCore # (
         genvar o,r;
         for(r = 0 ; r < NPU_OUT_NUM ; r = r + 1) begin:col_wire_x
             for(o = 0 ; o < NPU_IN_NUM ; o = o + 1) begin:row_wire_x
-                assign APM_x_in[r][o] = {NPU_data_in[r*NPU_IN_NUM*DATA_WIDTH],NPU_data_in[(r*NPU_IN_NUM*DATA_WIDTH+o*DATA_WIDTH)+:DATA_WIDTH]};
+                assign APM_x_in[r][o] = {NPU_data_in[r*NPU_IN_NUM*DATA_WIDTH+o*DATA_WIDTH+DATA_WIDTH-1],NPU_data_in[(r*NPU_IN_NUM*DATA_WIDTH+o*DATA_WIDTH)+:DATA_WIDTH]};
             end
         end
     endgenerate
@@ -135,6 +135,7 @@ module NPUCore # (
             end
         end
     end
+    
     integer l;
     //NPU out scaling shift
     always @(posedge clk or negedge rstn)
@@ -144,8 +145,9 @@ module NPUCore # (
             if(!rstn)
             begin
                 scaled_out[l]   <= 24'b0;
-                scaled_out_d1[l] <= 24'b0;
-                clip_state[l]   <= 2'b0;          
+                scaled_out_d1[l]<= 24'b0;
+                clip_state[l]   <= 2'b0;     
+                cliped_out[l]   <= 8'd0;   
             end 
             else
             begin

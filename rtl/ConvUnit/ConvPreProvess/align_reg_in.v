@@ -10,7 +10,7 @@ module align_reg_in # (
     input   wire                clk                                                         ,
     input   wire                rstn                                                        ,
 //data path
-    input   wire    [TOTAL_WIDTH_IN*REG_OUT_CHANNEL_NUM-1:0]            reg_data_in     ,
+    input   wire    [TOTAL_WIDTH_IN*REG_OUT_CHANNEL_NUM-1:0]            reg_data_in         ,
     output  wire    [TOTAL_WIDTH_IN*REG_OUT_CHANNEL_NUM-1:0]            reg_data_out                                
                      
 );
@@ -78,8 +78,8 @@ module align_reg_in # (
     endgenerate
 
 
-    assign reg_data_out = {reg_concat[0],reg_concat[1],reg_concat[2],reg_concat[3],
-    reg_concat[4],reg_concat[5],reg_concat[6],reg_concat[7],reg_concat[8],
-    reg_concat[9],reg_concat[10],reg_concat[11],reg_concat[12],reg_concat[13],
-    reg_concat[14],reg_concat[15],reg_concat[16],reg_concat[17]};
+    assign reg_data_out = {reg_concat[17],reg_concat[16],reg_concat[15],reg_concat[14],
+    reg_concat[13],reg_concat[12],reg_concat[11],reg_concat[10],reg_concat[9],
+    reg_concat[8],reg_concat[7],reg_concat[6],reg_concat[5],reg_concat[4],
+    reg_concat[3],reg_concat[2],reg_concat[1],reg_concat[0]};
 endmodule
