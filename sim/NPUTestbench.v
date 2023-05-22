@@ -193,32 +193,22 @@ module NPUTestbench();
         end
     end
     
-    NPUCore dut(
-        .clk(clk),
-        .rstn(rstn),
-        .MAC_data_in(data_in),       
-        .MAC_data_in_valid(in_valid), 
-        .MAC_param_in_0(param_in[0]), 
-        .MAC_param_in_1(param_in[1]),
-        .MAC_param_in_2(param_in[2]),
-        .MAC_param_in_3(param_in[3]),
-        .MAC_param_in_4(param_in[4]),
-        .MAC_param_in_5(param_in[5]),
-        .MAC_param_in_6(param_in[6]),
-        .MAC_param_in_7(param_in[7]),
-        .MAC_param_in_8(param_in[8]),
-        .MAC_param_in_9(param_in[9]),
-        .MAC_param_in_10(param_in[10]),
-        .MAC_param_in_11(param_in[11]),
-        .MAC_param_in_12(param_in[12]),
-        .MAC_param_in_13(param_in[13]),
-        .MAC_param_in_14(param_in[14]),
-        .MAC_param_in_15(param_in[15]),     
-        .MAC_param_in_valid(in_valid),
-        .MAC_data_out(data_out),
-        .adder_rst(adder_rst)
-        );
 
+    NPUCore NPUCore_dut (
+        .clk (clk ),
+        .rstn (rstn ),
+        .NPU_data_in (data_in),
+        .NPU_data_valid_in (in_valid),
+        .NPU_weight_in (NPU_weight_in ),
+        .NPU_weight_valid_in (in_valid),
+        .NPU_bias_in (NPU_bias_in ),
+        .NPU_bias_valid_in (NPU_bias_valid_in ),
+        .NPU_scale_in (NPU_scale_in ),
+        .NPU_data_out (data_out ),
+        .NPU_data_valid_out (NPU_data_valid_out ),
+        .adder_rst  ( adder_rst)
+    );
+      
     always @(posedge clk or negedge rstn) begin
         if(out_valid) begin
             for(q = 0 ; q < 16 ; q = q + 1)begin

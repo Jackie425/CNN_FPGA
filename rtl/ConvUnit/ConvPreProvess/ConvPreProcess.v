@@ -35,7 +35,7 @@ module ConvPreProcess # (
         .IN_CHANNEL_NUM(CONV_IN_NUM ),
         .OUT_CHANNEL_NUM(CONV_OUT_NUM ),
         .BUFF_LEN(BUFF_LEN ),
-        .DEPTH (ROW_BUFFER_DEPTH )
+        .ROW_BUFFER_DEPTH (ROW_BUFFER_DEPTH )
       )
       DWConvPreProcess_inst (
         .clk (clk ),
