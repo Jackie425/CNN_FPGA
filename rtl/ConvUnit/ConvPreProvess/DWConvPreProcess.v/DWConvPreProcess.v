@@ -53,13 +53,5 @@ module DWConvPreProcess # (
       .vailid_out  ( vailid_out)
     );
 
-    align_reg_in #(
-        
-    )
-    align_reg_in_inst(
-        .clk(clk)                                       ,
-        .rstn(rstn)                                     ,
-        .reg_data_in(NPU_data_in)                       ,
-        .reg_data_out()                             
-    );
+
 endmodule

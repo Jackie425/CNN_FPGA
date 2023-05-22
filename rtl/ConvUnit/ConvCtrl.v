@@ -20,6 +20,7 @@ module ConvCtrl # (
 //control signal inner conv                  
     output  wire                            adder_rst                   ,
     output  reg     [3:0]                   scale_in                    ,
+    output  wire                            PW_mode                     ,
     output  wire    [ROW_BUFFER_DEPTH-1:0]  buff_len_ctrl               ,
     output  wire                            buff_len_rst                
 );

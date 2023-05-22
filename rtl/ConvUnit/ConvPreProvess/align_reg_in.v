@@ -1,18 +1,17 @@
 `timescale 1ns / 1ps
 
 module align_reg_in # (
-    parameter           REG_CHANNEL_NUM             =   9                                   ,
-    parameter           DATA_WIDTH_IN               =   8                                    ,
-    parameter           DATA_WIDTH_OUT              =   9                                    ,
-    parameter           TOTAL_WIDTH_IN              =   REG_CHANNEL_NUM * DATA_WIDTH_IN         ,//80
-    parameter           TOTAL_WIDTH_OUT             =   REG_CHANNEL_NUM * DATA_WIDTH_OUT        //90
+    parameter           REG_IN_CHANNEL_IN           =   9                                   ,
+    parameter           REG_OUT_CHANNEL_OUT         =   18                                  ,
+    parameter           DATA_WIDTH_IN               =   8                                   ,
+    parameter           TOTAL_WIDTH_IN              =   REG_IN_CHANNEL_IN * DATA_WIDTH_IN   //72
 )
 (
     input   wire                clk                                                         ,
     input   wire                rstn                                                        ,
 //data path
-    input   wire    [TOTAL_WIDTH_IN-1:0]            reg_data_in                                 ,
-    output  wire    [TOTAL_WIDTH_OUT-1:0]           reg_data_out                                
+    input   wire    [TOTAL_WIDTH_IN*REG_OUT_CHANNEL_OUT-1:0]            reg_data_in     ,
+    output  wire    [TOTAL_WIDTH_IN*REG_OUT_CHANNEL_OUT-1:0]            reg_data_out                                
                      
 );
     //寄存器输入输出冗余导致重复寄存器被优化
@@ -24,46 +23,63 @@ module align_reg_in # (
     localparam TOTAL_WIDTH_IN_D6 = TOTAL_WIDTH_IN_D5 - 8        ;
     localparam TOTAL_WIDTH_IN_D7 = TOTAL_WIDTH_IN_D6 - 8        ;
     localparam TOTAL_WIDTH_IN_D8 = TOTAL_WIDTH_IN_D7 - 8        ;
-    //localparam TOTAL_WIDTH_IN_D9 = TOTAL_WIDTH_IN_D8-8        ;
 
 
 
-    reg [TOTAL_WIDTH_IN_D1-1:0]  x_d1;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D2-1:0]  x_d2;   // [0:MULT_PIPELINE_STAGE-1]   ;    
-    reg [TOTAL_WIDTH_IN_D3-1:0]  x_d3;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D4-1:0]  x_d4;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D5-1:0]  x_d5;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D6-1:0]  x_d6;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D7-1:0]  x_d7;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    reg [TOTAL_WIDTH_IN_D8-1:0]  x_d8;   // [0:MULT_PIPELINE_STAGE-1]   ;
-    //reg [TOTAL_WIDTH_IN_D9-1:0]  x_d9;   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D1-1:0]  x_d1   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D2-1:0]  x_d2   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;    
+    reg [TOTAL_WIDTH_IN_D3-1:0]  x_d3   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D4-1:0]  x_d4   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D5-1:0]  x_d5   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D6-1:0]  x_d6   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D7-1:0]  x_d7   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+    reg [TOTAL_WIDTH_IN_D8-1:0]  x_d8   [0:REG_OUT_CHANNEL_OUT];   // [0:MULT_PIPELINE_STAGE-1]   ;
+
+    wire    [TOTAL_WIDTH_IN-1:0]   reg_concat    [0:REG_OUT_CHANNEL_OUT-1];  
 
 
-    assign reg_data_out = {x_d8[7],x_d8[7:0],x_d7[7],x_d7[7:0],
-                           x_d6[7],x_d6[7:0],x_d5[7],x_d5[7:0],x_d4[7],x_d4[7:0],
-                           x_d3[7],x_d3[7:0],x_d2[7],x_d2[7:0],x_d1[7],x_d1[7:0],
-                           reg_data_in[7],reg_data_in[7:0]};
-    always @(posedge clk or negedge rstn) begin
-        if(!rstn)begin
-            x_d1 <= 72'b0;
-            x_d2 <= 64'b0;
-            x_d3 <= 56'b0;
-            x_d4 <= 48'b0;
-            x_d5 <= 40'b0;
-            x_d6 <= 32'b0;
-            x_d7 <= 24'b0;
-            x_d8 <= 16'b0;
-        end else begin
-            x_d1 <= reg_data_in[TOTAL_WIDTH_IN-1:8] ;
-            x_d2 <= x_d1[TOTAL_WIDTH_IN_D1-1:8] ;
-            x_d3 <= x_d2[TOTAL_WIDTH_IN_D2-1:8] ;
-            x_d4 <= x_d3[TOTAL_WIDTH_IN_D3-1:8] ;
-            x_d5 <= x_d4[TOTAL_WIDTH_IN_D4-1:8] ;
-            x_d6 <= x_d5[TOTAL_WIDTH_IN_D5-1:8] ;          
-            x_d7 <= x_d6[TOTAL_WIDTH_IN_D6-1:8] ;
-            x_d8 <= x_d7[TOTAL_WIDTH_IN_D7-1:8] ;
+    generate
+        genvar i;
+        for(i = 0 ; i < REG_OUT_CHANNEL_OUT ; i = i + 1) begin:align_reg
+            always @(posedge clk or negedge rstn) begin
+                if(!rstn)begin
+                    x_d1[i] <= 72'b0;
+                    x_d2[i] <= 64'b0;
+                    x_d3[i] <= 56'b0;
+                    x_d4[i] <= 48'b0;
+                    x_d5[i] <= 40'b0;
+                    x_d6[i] <= 32'b0;
+                    x_d7[i] <= 24'b0;
+                    x_d8[i] <= 16'b0;
+                end else begin
+                    x_d1[i] <= reg_data_in[(TOTAL_WIDTH_IN*i+8)+:(TOTAL_WIDTH_IN-8)];
+                    x_d2[i] <= x_d1[i][TOTAL_WIDTH_IN_D1-1:8];
+                    x_d3[i] <= x_d2[i][TOTAL_WIDTH_IN_D2-1:8];
+                    x_d4[i] <= x_d3[i][TOTAL_WIDTH_IN_D3-1:8];
+                    x_d5[i] <= x_d4[i][TOTAL_WIDTH_IN_D4-1:8];
+                    x_d6[i] <= x_d5[i][TOTAL_WIDTH_IN_D5-1:8];          
+                    x_d7[i] <= x_d6[i][TOTAL_WIDTH_IN_D6-1:8];
+                    x_d8[i] <= x_d7[i][TOTAL_WIDTH_IN_D7-1:8];
+                end
+            end
+        
         end
-    end
+    endgenerate       
+    
+//reg concat
+    generate
+        genvar j;
+        for(j = 0 ; j < REG_OUT_CHANNEL_OUT ; j = j + 1) begin: concat_wire
+            assign reg_concat[j] = {x_d8[j][7:0],x_d7[j][7:0],
+            x_d6[j][7:0],x_d5[j][7:0],x_d4[j][7:0],
+            x_d3[j][7:0],x_d2[j][7:0],x_d1[j][7:0],
+            reg_data_in[j*TOTAL_WIDTH_IN+:8]};
+        end
+    endgenerate
 
 
+    assign reg_data_out = {reg_concat[0],reg_concat[1],reg_concat[2],reg_concat[3],
+    reg_concat[4],reg_concat[5],reg_concat[6],reg_concat[7],reg_concat[8],
+    reg_concat[9],reg_concat[10],reg_concat[11],reg_concat[12],reg_concat[13],
+    reg_concat[14],reg_concat[15],reg_concat[16],reg_concat[17]};
 endmodule

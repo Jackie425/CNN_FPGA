@@ -21,9 +21,14 @@ module ConvPreProcess # (
     output wire     [CONV_OUT_NUM*CONV_IN_NUM*DATA_WIDTH-1:0]   data_out        ,
     output wire                                                 valid_out       ,
     //control path
-    input  wire     [ROW_BUFFER_DEPTH-1:0]                                     buff_len_ctrl   ,
-    input  wire                                                     buff_len_rst    
+    input  wire     [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl   ,
+    input  wire                                                 buff_len_rst    ,
+    input  wire                                                 PW_mode         
 );
+
+    wire    [CONV_OUT_NUM*CONV_IN_NUM*DATA_WIDTH-1:0]       win_reg;
+    wire    [CONV_IN_NUM*DATA_WIDTH-1:0]                    PW_data_out;
+    wire    [CONV_IN_NUM*DATA_WIDTH*CONV_OUT_NUM-1:0]       reg_data_in;
 
     DWConvPreProcess # (
         .DATA_WIDTH(DATA_WIDTH ),
@@ -54,7 +59,20 @@ module ConvPreProcess # (
         .clk (clk ),
         .rstn (rstn ),
         .data_in (data_in ),
-        .data_out  ( data_out)
+        .data_out  ( PW_data_out)
       );
 
+      align_reg_in #(
+        .REG_IN_CHANNEL_NUM(9)          ,
+        .REG_OUT_CHANNEL_NUM(18)        ,
+        .DATA_WIDTH_IN  (8)             
+      )
+      align_reg_in_inst(
+          .clk(clk)                                       ,
+          .rstn(rstn)                                     ,
+          .reg_data_in(reg_data_in)                       ,
+          .reg_data_out(data_out)                             
+      );
+      //PW & DW Mode MUX
+      assign reg_data_in = PW_mode ? {18{PW_data_out}} : win_reg;
 endmodule
