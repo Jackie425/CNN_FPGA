@@ -68,16 +68,7 @@ module NPUCore # (
                          cliped_out[5] , cliped_out[4] , cliped_out[3] , 
                          cliped_out[2] , cliped_out[1][7:0], cliped_out[0]};/*位宽不对没截断导致APM被优化*/
 
-    //align_reg_in #(
-    //    .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
-    //)
-    //align_reg_in_inst(
-    //    .clk(clk)                                       ,
-    //    .rstn(rstn)                                     ,
-    //    .reg_data_in(NPU_data_in)                       ,
-    //    .reg_data_out({APM_x_in[8],APM_x_in[7],
-    //    APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
-    //);
+
     //X in concat wire
     generate 
         genvar o,r;

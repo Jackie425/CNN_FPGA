@@ -118,5 +118,14 @@ module ConvUnit # (
       .data_in (data_in ),
       .data_out  ( data_out)
     );
-  
+    //align_reg_in #(
+    //    .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
+    //)
+    //align_reg_in_inst(
+    //    .clk(clk)                                       ,
+    //    .rstn(rstn)                                     ,
+    //    .reg_data_in(NPU_data_in)                       ,
+    //    .reg_data_out({APM_x_in[8],APM_x_in[7],
+    //    APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
+    //);
 endmodule
