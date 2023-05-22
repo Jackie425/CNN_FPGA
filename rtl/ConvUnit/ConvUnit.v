@@ -87,45 +87,6 @@ module ConvUnit # (
         .buff_len_rst (buff_len_rst )
     );
 
-    DWConvPreProcess # (
-      .DATA_WIDTH(DATA_WIDTH ),
-      .IN_CHANNEL_NUM(CONV_IN_NUM ),
-      .OUT_CHANNEL_NUM(CONV_OUT_NUM ),
-      .BUFF_LEN(BUFF_LEN ),
-      .DEPTH (ROW_BUFFER_DEPTH )
-    )
-    DWConvPreProcess_inst (
-      .clk (clk ),
-      .rstn (rstn ),
-      .data_in (data_in ),
-      .valid_in (valid_in ),
-      .win_reg (win_reg ),
-      .valid_out (valid_out ),
-      .buff_len_ctrl (buff_len_ctrl ),
-      .buff_len_rst  ( buff_len_rst)
-    );
 
-    PWConvPreProcess # (
-      .DATA_WIDTH    (DATA_WIDTH),
-      .IN_CHANNEL    (CONV_IN_NUM),
-      .OUT_CHANNEL   (CONV_OUT_NUM),
-      .TOTAL_IN_WIDTH(DATA_WIDTH*CONV_IN_NUM),
-      .TOTAL_PW_WIDTH(DATA_WIDTH*CONV_OUT_NUM)
-    )
-    PWConvPreProcess_inst (
-      .clk (clk ),
-      .rstn (rstn ),
-      .data_in (data_in ),
-      .data_out  ( data_out)
-    );
-    //align_reg_in #(
-    //    .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
-    //)
-    //align_reg_in_inst(
-    //    .clk(clk)                                       ,
-    //    .rstn(rstn)                                     ,
-    //    .reg_data_in(NPU_data_in)                       ,
-    //    .reg_data_out({APM_x_in[8],APM_x_in[7],
-    //    APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
-    //);
+
 endmodule

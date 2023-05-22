@@ -5,8 +5,7 @@ module align_reg_in # (
     parameter           DATA_WIDTH_IN               =   8                                    ,
     parameter           DATA_WIDTH_OUT              =   9                                    ,
     parameter           TOTAL_WIDTH_IN              =   REG_CHANNEL_NUM * DATA_WIDTH_IN         ,//80
-    parameter           TOTAL_WIDTH_OUT             =   REG_CHANNEL_NUM * DATA_WIDTH_OUT        ,//90
-    parameter           MULT_PIPELINE_STAGE         =   2
+    parameter           TOTAL_WIDTH_OUT             =   REG_CHANNEL_NUM * DATA_WIDTH_OUT        //90
 )
 (
     input   wire                clk                                                         ,

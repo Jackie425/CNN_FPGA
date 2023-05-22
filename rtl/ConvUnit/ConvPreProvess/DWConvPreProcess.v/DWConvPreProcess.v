@@ -5,7 +5,7 @@ module DWConvPreProcess # (
     parameter   IN_CHANNEL_NUM          =       9                           ,
     parameter   OUT_CHANNEL_NUM         =       18                          ,
     parameter   BUFF_LEN                =       320-2                       ,
-    parameter   DEPTH                   =       $clog2(BUFF_LEN)       
+    parameter   ROW_BUFFER_DEPTH                   =       $clog2(BUFF_LEN)       
 )
 (           
     input   wire                                                    clk             ,
@@ -16,7 +16,7 @@ module DWConvPreProcess # (
     output  reg     [OUT_CHANNEL_NUM*IN_CHANNEL_NUM*DATA_WIDTH-1:0] win_reg         ,
     output  wire                                                    valid_out       ,
 //control path
-    input  wire     [DEPTH-1:0]                                     buff_len_ctrl   ,
+    input  wire     [ROW_BUFFER_DEPTH-1:0]                          buff_len_ctrl   ,
     input  wire                                                     buff_len_rst    
 );
 
@@ -27,7 +27,7 @@ module DWConvPreProcess # (
       .IN_CHANNEL_NUM(IN_CHANNEL_NUM ),
       .OUT_CHANNEL_NUM(OUT_CHANNEL_NUM ),
       .BUFF_LEN(BUFF_LEN ),
-      .DEPTH (DEPTH )
+      .DEPTH (ROW_BUFFER_DEPTH )
     )
     DWRowBuf_inst (
       .clk          (clk          ),
@@ -52,5 +52,14 @@ module DWConvPreProcess # (
       .win_reg (win_reg ),
       .vailid_out  ( vailid_out)
     );
-  
+
+    align_reg_in #(
+        
+    )
+    align_reg_in_inst(
+        .clk(clk)                                       ,
+        .rstn(rstn)                                     ,
+        .reg_data_in(NPU_data_in)                       ,
+        .reg_data_out()                             
+    );
 endmodule
