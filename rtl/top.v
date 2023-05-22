@@ -6,9 +6,7 @@ module top (
 //control path in   
     input   wire    [255:0]             DDR_data_in         ,
     input   wire                        DDR_valid_in        ,
-    input   wire    [143:0]             Conv_data_in         ,
     input   wire                        Conv_data_valid_in   ,
-
     output  wire    [143:0]             Conv_data_out        ,
     output  wire                        Conv_data_valid_out 
 
@@ -88,17 +86,22 @@ module top (
         .state_rst          (state_rst      )
     );
 
-    DRM_W144_D13 FeatureMapMem_inst (
-        .wr_data(Conv_data_out),        // input [143:0]
-        .wr_addr(wr_addr),        // input [12:0]
-        .wr_en(Conv_data_valid_out),            // input
-        .wr_clk(clk),          // input
-        .wr_clk_en(1'b1),    // input
-        .wr_rst(~rstn),          // input
-        .rd_addr(rd_addr),        // input [12:0]
-        .rd_data(Conv_data_in),        // output [143:0]
-        .rd_clk(clk),          // input
-        .rd_clk_en(1'b1),    // input
-        .rd_rst(~rstn)           // input
+    FeatureMapMemoryTop # (
+      .CONV_IN_NUM(9),
+      .CONV_OUT_NUM(18),
+      .DATA_WIDTH(8),
+      .WEIGHT_WIDTH(8),
+      .BIAS_WIDTH(16),
+      .FM_MEM_DEPTH(13)
+    )
+    FeatureMapMemoryTop_inst (
+      .clk (clk),
+      .rstn (rstn),
+      .wr_data (Conv_data_out),
+      .rd_data (Conv_data_in),
+      .current_state (current_state),
+      .state_rst    (state_rst)
     );
+  
+
 endmodule

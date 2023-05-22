@@ -145,7 +145,7 @@ module NPUCore # (
             begin
                 scaled_out[l]   <= 24'b0;
                 scaled_out_d1[l] <= 24'b0;
-                clip_state[l]   <= 2'b00;          
+                clip_state[l]   <= 2'b0;          
             end 
             else
             begin
