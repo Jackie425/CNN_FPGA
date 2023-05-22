@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module DWRowBuf # (
+module DWRowBuff # (
     parameter   DATA_WIDTH              =       8                           ,
     parameter   IN_CHANNEL_NUM          =       9                           ,
     parameter   OUT_CHANNEL_NUM         =       18                          ,

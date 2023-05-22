@@ -20,7 +20,7 @@ module DWConvPreProcess # (
     input  wire                                                     buff_len_rst    
 );
 
-    wire    [OUT_CHANNEL_NUM*DATA_WIDTH*3-1:0]      row_buf_out  ;
+    wire    [OUT_CHANNEL_NUM*DATA_WIDTH*3-1:0]      row_buff_out  ;
 
     DWRowBuf # (
       .DATA_WIDTH(DATA_WIDTH ),
@@ -34,7 +34,7 @@ module DWConvPreProcess # (
       .rstn         (rstn         ),
       .data_in      (data_in      ),
       .valid_in     (valid_in     ),
-      .data_out     (row_buf_out  ),
+      .data_out     (row_buff_out  ),
       .buff_len_ctrl(buff_len_ctrl),
       .buff_len_rst (buff_len_rst )
     );
@@ -47,7 +47,7 @@ module DWConvPreProcess # (
     DWConvWinGen_inst (
       .clk (clk ),
       .rstn (rstn ),
-      .data_in (row_buf_out ),
+      .data_in (row_buff_out ),
       .valid_in (valid_in ),
       .win_reg (win_reg ),
       .vailid_out  ( vailid_out)
