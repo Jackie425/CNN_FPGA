@@ -35,7 +35,7 @@ module DWConvPreProcess # (
       .valid_in     (valid_in     ),
       .data_out     (data_out     ),
       .buff_len_ctrl(buff_len_ctrl),
-      .buff_len_rst ( buff_len_rst)
+      .buff_len_rst (buff_len_rst )
     );
 
     DWConvWinGen # (
