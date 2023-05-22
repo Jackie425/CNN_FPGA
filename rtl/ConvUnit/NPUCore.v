@@ -79,6 +79,13 @@ module NPUCore # (
         .reg_data_out({APM_x_in[8],APM_x_in[7],
         APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
     );
+    generate 
+        genvar o;
+        for(o = 0 ; o < NPU_IN_NUM; o = o + 1) begin:APM_x_in_wire
+            assign APM_x_in[o] = 
+        end
+    endgenerate
+    
 
     //Z in wire
     generate 

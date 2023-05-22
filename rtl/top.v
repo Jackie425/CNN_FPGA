@@ -6,11 +6,11 @@ module top (
 //control path in   
     input   wire    [255:0]             DDR_data_in         ,
     input   wire                        DDR_valid_in        ,
-    input   wire    [143:0]             MAC_data_in         ,
-    input   wire                        MAC_data_valid_in   ,
+    input   wire    [143:0]             Conv_data_in         ,
+    input   wire                        Conv_data_valid_in   ,
 
-    output  wire    [143:0]             MAC_data_out        ,
-    output  wire                        MAC_data_valid_out 
+    output  wire    [143:0]             Conv_data_out        ,
+    output  wire                        Conv_data_valid_out 
 
 );
 
@@ -30,8 +30,8 @@ module top (
     );
 
     ConvUnit # (
-        .MAC_IN_NUM         (9  ),
-        .MAC_OUT_NUM        (18 ),
+        .CONV_IN_NUM         (9  ),
+        .CONV_OUT_NUM        (18 ),
         .APM_COL_NUM        (9  ),
         .APM_ROW_NUM        (9  ),
         .DATA_WIDTH         (8  ),
@@ -42,14 +42,14 @@ module top (
     ConvUnit_inst(
         .clk                (clk                ),
         .rstn               (rstn               ),
-        .MAC_data_in        (MAC_data_in        ),
-        .MAC_data_valid_in  (MAC_data_valid_in  ),
-        .MAC_weight_in      (Weight_data        ),
-        .MAC_weight_valid_in(Weight_valid       ),
-        .MAC_bias_in        (Bias_data        ),
-        .MAC_bias_valid_in  (Bias_valid  ),
-        .MAC_data_out       (MAC_data_out       ),
-        .MAC_data_valid_out (MAC_data_valid_out ),
+        .Conv_data_in        (Conv_data_in        ),
+        .Conv_data_valid_in  (Conv_data_valid_in  ),
+        .Conv_weight_in      (Weight_data        ),
+        .Conv_weight_valid_in(Weight_valid       ),
+        .Conv_bias_in        (Bias_data        ),
+        .Conv_bias_valid_in  (Bias_valid  ),
+        .Conv_data_out       (Conv_data_out       ),
+        .Conv_data_valid_out (Conv_data_valid_out ),
         .current_state      (current_state      ),
         .state_rst          (state_rst          )
     );
