@@ -20,7 +20,7 @@ module DWConvWinGen # (
             for(j = 0 ; j < OUT_CHANNEL_NUM ; j = j + 1) begin
                 if(!rstn) begin
                     win_out <= 1296'b0;
-                end else if(i!=0&&i!=3&&i!=6)begin
+                end else if(i!=0 && i!=3 && i!=6)begin
                     win_out[j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH +: DATA_WIDTH] <= win_out[j*IN_CHANNEL_NUM*DATA_WIDTH+(i-1)*DATA_WIDTH +: DATA_WIDTH];
                 end else begin
                     win_out[j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH +: DATA_WIDTH] <= data_in[i*3*DATA_WIDTH+i/3*DATA_WIDTH +: DATA_WIDTH];
