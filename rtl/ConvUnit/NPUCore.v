@@ -15,7 +15,7 @@ module NPUCore # (
     input   wire                rstn                                                        ,
 
 //data path
-    input   wire    [NPU_IN_NUM*DATA_WIDTH-1:0]                 NPU_data_in                 ,
+    input   wire    [NPU_IN_NUM*DATA_WIDTH*NPU_OUT_NUM-1:0]     NPU_data_in                 ,
     input   wire                                                NPU_data_valid_in           ,
 
     input   wire    [NPU_IN_NUM*WEIGHT_WIDTH*NPU_OUT_NUM-1:0]   NPU_weight_in               ,
@@ -36,7 +36,7 @@ module NPUCore # (
 
     wire  signed    [23:0]              APM_z_in        [0:NPU_OUT_NUM-1][0:NPU_IN_NUM-1]   ; 
     wire  signed    [23:0]              APM_p_out       [0:NPU_OUT_NUM-1][0:NPU_IN_NUM-1]   ;   
-    wire            [8:0]               APM_x_in        [0:NPU_IN_NUM-1]                    ;
+    wire            [8:0]               APM_x_in        [0:NPU_OUT_NUM-1][0:NPU_IN_NUM-1]   ;
     wire  signed    [8:0]               APM_y_in        [0:NPU_OUT_NUM-1][0:NPU_IN_NUM-1]   ;   
     reg   signed    [23:0]              NPU_out         [0:NPU_OUT_NUM-1]                   ;
     reg   signed    [24-1:0]            scaled_out      [0:NPU_OUT_NUM-1]                   ;
@@ -68,21 +68,23 @@ module NPUCore # (
                          cliped_out[5] , cliped_out[4] , cliped_out[3] , 
                          cliped_out[2] , cliped_out[1][7:0], cliped_out[0]};/*位宽不对没截断导致APM被优化*/
 
-    //aligns inputs with registers
-    align_reg_in #(
-        .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
-    )
-    align_reg_in_inst(
-        .clk(clk)                                       ,
-        .rstn(rstn)                                     ,
-        .reg_data_in(NPU_data_in)                       ,
-        .reg_data_out({APM_x_in[8],APM_x_in[7],
-        APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
-    );
+    //align_reg_in #(
+    //    .MULT_PIPELINE_STAGE (MULT_PIPELINE_STAGE)
+    //)
+    //align_reg_in_inst(
+    //    .clk(clk)                                       ,
+    //    .rstn(rstn)                                     ,
+    //    .reg_data_in(NPU_data_in)                       ,
+    //    .reg_data_out({APM_x_in[8],APM_x_in[7],
+    //    APM_x_in[6],APM_x_in[5],APM_x_in[4],APM_x_in[3],APM_x_in[2],APM_x_in[1],APM_x_in[0]})                             
+    //);
+    //X in concat wire
     generate 
-        genvar o;
-        for(o = 0 ; o < NPU_IN_NUM; o = o + 1) begin:APM_x_in_wire
-            assign APM_x_in[o] = 
+        genvar o,r;
+        for(r = 0 ; r < NPU_OUT_NUM ; r = r + 1) begin:col_wire_x
+            for(o = 0 ; o < NPU_IN_NUM ; o = o + 1) begin:row_wire_x
+                assign APM_x_in[r][o] = {NPU_data_in[r*NPU_IN_NUM*DATA_WIDTH],NPU_data_in[(r*NPU_IN_NUM*DATA_WIDTH+o*DATA_WIDTH)+:DATA_WIDTH]};
+            end
         end
     endgenerate
     
@@ -91,9 +93,9 @@ module NPUCore # (
     generate 
         genvar m,n;
         for(m = 0 ; m < NPU_OUT_NUM ; m = m + 1)
-        begin:col_wire
+        begin:col_wire_z
             for(n = 1 ; n < NPU_IN_NUM ; n = n + 1)
-            begin:row_wire
+            begin:row_wire_z
                 assign APM_z_in[m][n] = APM_p_out[m][n - 1];
             end
             assign APM_z_in[m][0] = NPU_bias_in[m*BIAS_WIDTH+:BIAS_WIDTH];
@@ -111,10 +113,10 @@ module NPUCore # (
                 APM_inst(
                     .clk        (clk                                    ),    
                     .rstn       (rstn                                   ),
-                    .low_x      (APM_x_in[k]                            ),
+                    .low_x      (APM_x_in[2 * j][k]                     ),
                     .low_y      (APM_y_in[2 * j][k]                     ),
                     .low_z      (APM_z_in[2 * j][k]                     ),
-                    .high_x     (APM_x_in[k]                            ),
+                    .high_x     (APM_x_in[2 * j + 1][k]                 ),
                     .high_y     (APM_y_in[2 * j + 1][k]                 ),
                     .high_z     (APM_z_in[2 * j + 1][k]                 ),
                     .data_valid (NPU_data_in_valid & NPU_param_in_valid ),
