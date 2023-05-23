@@ -7,8 +7,7 @@ module NPUCore # (
     parameter           APM_ROW_NUM             =   NPU_IN_NUM                           ,//9
     parameter           DATA_WIDTH              =   8                                    ,
     parameter           WEIGHT_WIDTH            =   8                                    ,
-    parameter           BIAS_WIDTH              =   16                                   ,
-    parameter           MULT_PIPELINE_STAGE     =   2                                    
+    parameter           BIAS_WIDTH              =   16                                                                   
 )
 (
     input   wire                clk                                                         ,
@@ -99,7 +98,8 @@ module NPUCore # (
         for(j = 0 ; j < APM_COL_NUM ; j = j + 1) begin:systolic_array_out
             for(k = 0 ; k < APM_ROW_NUM ; k = k + 1) begin:systolic_array_in
                 APM #(
-                    .MULT_PIPELINE_STAGE   (MULT_PIPELINE_STAGE)
+                    .Z_INIT   (0),
+                    .ASYNC_RST(0)
                 )
                 APM_inst(
                     .clk        (clk                                    ),    

@@ -8,7 +8,6 @@ module ConvPreProcess # (
     parameter           DATA_WIDTH              =   8                                    ,
     parameter           WEIGHT_WIDTH            =   8                                    ,
     parameter           BIAS_WIDTH              =   16                                   ,
-    parameter           MULT_PIPELINE_STAGE     =   2                                    ,
     parameter           ROW_BUFFER_DEPTH        =   9                                    ,
     parameter           BUFF_LEN                =   320-2
 )

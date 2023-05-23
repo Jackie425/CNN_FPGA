@@ -48,7 +48,7 @@ module DWRowBuff # (
         .wr_data({data_in,row1_data_out}),        // input [287:0]
         .wr_addr(addr_in),        // input [8:0]
         .wr_en(valid_in),            // input
-        .wr_clk(CLK),          // input
+        .wr_clk(clk),          // input
         .wr_clk_en(1'b1),    // input
         .wr_rst(~rstn),          // input
         .rd_addr(addr_out),        // input [8:0]
@@ -57,6 +57,6 @@ module DWRowBuff # (
         .rd_clk_en(1'b1),    // input
         .rd_rst(~rstn)           // input
       );
-      
+
     assign data_out = {row2_data_out,row1_data_out,data_in};
 endmodule

@@ -1,7 +1,6 @@
 `timescale 1ns / 1ps
 
-module APM # (
-    parameter           MULT_PIPELINE_STAGE     =   2'd2                        ,
+module APM # (                   
     parameter           Z_INIT                  =   48'd0                       ,
     parameter           ASYNC_RST               =   1'b0
 )

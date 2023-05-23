@@ -8,7 +8,6 @@ module ConvUnit # (
     parameter           DATA_WIDTH              =   8                                    ,
     parameter           WEIGHT_WIDTH            =   8                                    ,
     parameter           BIAS_WIDTH              =   16                                   ,
-    parameter           MULT_PIPELINE_STAGE     =   2                                    ,
     parameter           ROW_BUFFER_DEPTH        =   9                                    ,
     parameter           BUFF_LEN                =   320-2
 )
@@ -32,27 +31,30 @@ module ConvUnit # (
     
 //control path 
     input   wire    [2:0]                                       current_state               ,
-    output  wire                                                state_rst                   
+    output  wire                                                state_rst                   ,
+//test top
+    input   wire                                                adder_rst                   ,
+    input   wire    [4-1:0]                                     Conv_scale_in               ,
+    input   wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl               ,
+    input   wire                                                buff_len_rst                ,
+    input   wire                                                PW_mode      
 );
     //control path inner
-    wire                                                adder_rst           ;
-    wire    [4-1:0]                                     Conv_scale_in       ;
-    wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl       ;
-    wire                                                buff_len_rst        ;
-    wire                                                PW_mode             ;
+    //wire                                                adder_rst           ;
+    //wire    [4-1:0]                                     Conv_scale_in       ;
+    //wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl       ;
+    //wire                                                buff_len_rst        ;
+    //wire                                                PW_mode             ;
     //data path inner
     wire    [CONV_OUT_NUM*CONV_IN_NUM*DATA_WIDTH-1:0]   NPU_data_in         ; 
     wire                                                NPU_data_valid_in   ;  
 
     NPUCore # (
-        .NPU_IN_NUM         (CONV_IN_NUM         ),
-        .NPU_OUT_NUM        (CONV_OUT_NUM        ),
-        .APM_COL_NUM        (APM_COL_NUM        ),
-        .APM_ROW_NUM        (APM_ROW_NUM        ),
-        .DATA_WIDTH         (DATA_WIDTH         ),
-        .WEIGHT_WIDTH       (WEIGHT_WIDTH       ),
-        .BIAS_WIDTH         (BIAS_WIDTH         ),
-        .MULT_PIPELINE_STAGE(MULT_PIPELINE_STAGE)
+        .NPU_IN_NUM         (9         ),
+        .NPU_OUT_NUM        (18        ),
+        .DATA_WIDTH         (8         ),
+        .WEIGHT_WIDTH       (8       ),
+        .BIAS_WIDTH         (16         )
     )
     NPUCore_inst(
         .clk                    (clk                ),
@@ -68,16 +70,15 @@ module ConvUnit # (
         .NPU_data_valid_out     (Conv_data_valid_out ),
         .adder_rst              (adder_rst          )            
     );
-    
+    /*
     ConvCtrl # (
-        .CONV_IN_NUM         (CONV_IN_NUM         ),
-        .CONV_OUT_NUM        (CONV_OUT_NUM        ),
+        .CONV_IN_NUM        (CONV_IN_NUM         ),
+        .CONV_OUT_NUM       (CONV_OUT_NUM        ),
         .APM_COL_NUM        (APM_COL_NUM        ),
         .APM_ROW_NUM        (APM_ROW_NUM        ),
         .DATA_WIDTH         (DATA_WIDTH         ),
         .WEIGHT_WIDTH       (WEIGHT_WIDTH       ),
         .BIAS_WIDTH         (BIAS_WIDTH         ),
-        .MULT_PIPELINE_STAGE(MULT_PIPELINE_STAGE),
         .ROW_BUFFER_DEPTH   (ROW_BUFFER_DEPTH)
     )
     ConvCtrl_inst(
@@ -91,18 +92,13 @@ module ConvUnit # (
         .buff_len_ctrl(buff_len_ctrl),
         .buff_len_rst (buff_len_rst )
     );
-
+*/
     ConvPreProcess # (
-      .CONV_IN_NUM(CONV_IN_NUM ),
-      .CONV_OUT_NUM(CONV_OUT_NUM ),
-      .APM_COL_NUM(APM_COL_NUM ),
-      .APM_ROW_NUM(APM_ROW_NUM ),
-      .DATA_WIDTH(DATA_WIDTH ),
-      .WEIGHT_WIDTH(WEIGHT_WIDTH ),
-      .BIAS_WIDTH(BIAS_WIDTH ),
-      .MULT_PIPELINE_STAGE(MULT_PIPELINE_STAGE ),
-      .ROW_BUFFER_DEPTH(ROW_BUFFER_DEPTH ),
-      .BUFF_LEN (BUFF_LEN )
+      .CONV_IN_NUM(9),
+      .CONV_OUT_NUM(18),
+      .DATA_WIDTH(8),
+      .WEIGHT_WIDTH(8),
+      .BIAS_WIDTH(16)
     )
     ConvPreProcess_inst (
       .clk (clk ),

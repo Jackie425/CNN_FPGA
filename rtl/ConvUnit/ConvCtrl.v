@@ -33,7 +33,6 @@ module ConvCtrl # (
     localparam  SCALE_A = 4'd1      ;
     localparam  SCALE_B = 4'd2      ;
     localparam  SCALE_C = 4'd3      ;
-
 //scale signal generate
     always @(*) begin
         case (current_state)

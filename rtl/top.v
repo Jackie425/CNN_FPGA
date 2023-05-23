@@ -4,12 +4,16 @@ module top (
     input   wire                        clk                 ,
     input   wire                        rstn                ,
 //control path in   
-    input   wire    [255:0]             DDR_data_in         ,
-    input   wire                        DDR_valid_in        ,
-    input   wire                        Conv_data_valid_in   ,
-    output  wire    [143:0]             Conv_data_out        ,
-    output  wire                        Conv_data_valid_out 
-
+    input   wire    [255:0]                 DDR_data_in         ,
+    input   wire                            DDR_valid_in        ,
+    input   wire                            Conv_data_valid_in  ,
+    output  wire    [143:0]                 Conv_data_out       ,
+    output  wire                            Conv_data_valid_out ,
+    input   wire                            adder_rst           ,
+    input   wire    [4-1:0]                 Conv_scale_in       ,
+    input   wire    [9-1:0]                 buff_len_ctrl       ,
+    input   wire                            buff_len_rst        ,
+    input   wire                            PW_mode      
 );
 
 
@@ -34,8 +38,7 @@ module top (
         .APM_ROW_NUM        (9  ),
         .DATA_WIDTH         (8  ),
         .WEIGHT_WIDTH       (8  ),
-        .BIAS_WIDTH         (16 ),
-        .MULT_PIPELINE_STAGE(2  )
+        .BIAS_WIDTH         (16 )
     )
     ConvUnit_inst(
         .clk                (clk                ),
@@ -49,7 +52,12 @@ module top (
         .Conv_data_out       (Conv_data_out       ),
         .Conv_data_valid_out (Conv_data_valid_out ),
         .current_state      (current_state      ),
-        .state_rst          (state_rst          )
+        .state_rst          (state_rst          ),
+        .adder_rst          (adder_rst    ),
+        .Conv_scale_in      (Conv_scale_in),
+        .buff_len_ctrl      (buff_len_ctrl),
+        .buff_len_rst       (buff_len_rst ),
+        .PW_mode            (PW_mode      )
     );
 
     BiasMemoryTop # (
