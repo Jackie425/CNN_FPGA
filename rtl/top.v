@@ -38,7 +38,6 @@ module top (
    // wire                state_rst; 
 //*****************************************
     wire    [143:0]     Conv_data_in;
-    //wire                Conv_data_valid_in;
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
     wire    [287:0]     Bias_data;
