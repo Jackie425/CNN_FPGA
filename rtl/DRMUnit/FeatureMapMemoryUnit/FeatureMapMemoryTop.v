@@ -20,7 +20,9 @@ module FeatureMapMemoryTop # (
     input   wire    [DDR_WIDTH-1:0]                     DDR_wr_data     ,
     input   wire                                        DDR_wr_valid    ,
     output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       Conv_rd_data    ,
+    input  wire                                         Conv_rd_valid   , 
     output  wire    [DDR_WIDTH-1:0]                     DDR_rd_data     ,
+    output  wire                                        DDR_rd_valid    , 
     //control path
     input   wire    [2:0]                               current_state   ,
     output  wire                                        state_rst       ,
@@ -70,7 +72,22 @@ module FeatureMapMemoryTop # (
       .data_out (DDR_converter_data),
       .valid_out(DDR_converter_valid)
     );
-
+    FeatureMapOutWidthConverter # (
+      .WIDTH_IN(144),
+      .WIDTH_OUT(256),
+      .NUM_IN(16),
+      .NUM_OUT(9)
+    )
+    FeatureMapOutWidthConverter_inst (
+      .sys_clk  (sys_clk  ),
+      .calc_clk (calc_clk ),
+      .rstn     (rstn     ),
+      .data_in  (Conv_rd_data),
+      .valid_in (Conv_rd_valid),
+      .data_out (DDR_rd_data),
+      .valid_out(DDR_rd_valid)
+    );
+  
     //FeatureMapMemory write MUX
     assign wr_data = fm_DDR_wr ? DDR_converter_data : Conv_wr_data;
     assign wr_en = DDR_converter_valid | Conv_wr_valid;

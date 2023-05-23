@@ -37,6 +37,8 @@ module top (
    // wire    [2:0]       current_state;
    // wire                state_rst; 
 //*****************************************
+    wire    [143:0]     Conv_data_in;
+    //wire                Conv_data_valid_in;
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
     wire    [287:0]     Bias_data;
@@ -150,7 +152,9 @@ module top (
         .DDR_wr_data (DDR_data_in),
         .DDR_wr_valid(DDR_valid_in),
         .Conv_rd_data (Conv_data_in),
+        .Conv_rd_valid(Conv_data_valid_in),
         .DDR_rd_data(DDR_data_out),
+        .DDR_rd_valid(DDR_rd_valid),
         .current_state (current_state),
         .state_rst    (state_rst),
         //********************************************************
