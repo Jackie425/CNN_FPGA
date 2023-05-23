@@ -11,7 +11,7 @@ module DWConvWinGen # (
     input  wire     [OUT_CHANNEL_NUM*3*DATA_WIDTH-1:0]              data_in         ,
     input  wire                                                     valid_in        ,
     output reg      [OUT_CHANNEL_NUM*IN_CHANNEL_NUM*DATA_WIDTH-1:0] win_reg         ,
-    output wire                                                     vailid_out 
+    output wire                                                     valid_out 
 );
 
     integer i,j;

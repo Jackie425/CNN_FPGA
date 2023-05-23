@@ -31,32 +31,31 @@ module ConvPreProcess # (
     wire    [CONV_IN_NUM*DATA_WIDTH*CONV_OUT_NUM-1:0]       reg_data_in;
 
     DWConvPreProcess # (
-        .DATA_WIDTH(DATA_WIDTH ),
-        .IN_CHANNEL_NUM(CONV_IN_NUM ),
-        .OUT_CHANNEL_NUM(CONV_OUT_NUM ),
-        .BUFF_LEN(BUFF_LEN ),
-        .ROW_BUFFER_DEPTH (ROW_BUFFER_DEPTH )
+        .DATA_WIDTH(8),
+        .IN_CHANNEL_NUM(9),
+        .OUT_CHANNEL_NUM(18),
+        .BUFF_LEN(320-2)
     )
     DWConvPreProcess_inst (
-      .clk (clk ),
-      .rstn (rstn ),
-      .data_in (data_in ),
-      .valid_in (valid_in ),
-      .win_reg (win_reg ),
-      .valid_out (valid_out ),
-      .buff_len_ctrl (buff_len_ctrl ),
+      .clk (clk),
+      .rstn (rstn),
+      .data_in (data_in),
+      .valid_in (valid_in),
+      .win_reg (win_reg),
+      .valid_out (valid_out),
+      .buff_len_ctrl (buff_len_ctrl),
       .buff_len_rst  ( buff_len_rst)
     );
 
     PWConvPreProcess # (
-      .DATA_WIDTH    (DATA_WIDTH),
-      .IN_CHANNEL    (CONV_IN_NUM),
-      .OUT_CHANNEL   (CONV_OUT_NUM)
+      .DATA_WIDTH    (8),
+      .IN_CHANNEL    (9),
+      .OUT_CHANNEL   (18)
     )
     PWConvPreProcess_inst (
-      .clk        (clk ),
-      .rstn       (rstn ),
-      .data_in    (data_in ),
+      .clk        (clk),
+      .rstn       (rstn),
+      .data_in    (data_in),
       .data_out   (PW_data_out)
     );
 

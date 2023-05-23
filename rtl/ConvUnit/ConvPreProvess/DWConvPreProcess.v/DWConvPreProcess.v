@@ -21,36 +21,36 @@ module DWConvPreProcess # (
 );
 
     wire    [OUT_CHANNEL_NUM*DATA_WIDTH*3-1:0]      row_buff_out  ;
-
+    wire      row_buff_valid_out;
     DWRowBuff # (
-      .DATA_WIDTH(DATA_WIDTH ),
-      .IN_CHANNEL_NUM(IN_CHANNEL_NUM ),
-      .OUT_CHANNEL_NUM(OUT_CHANNEL_NUM ),
-      .BUFF_LEN(BUFF_LEN ),
-      .DEPTH (ROW_BUFFER_DEPTH )
+      .DATA_WIDTH(8 ),
+      .IN_CHANNEL_NUM(9 ),
+      .OUT_CHANNEL_NUM(18 ),
+      .BUFF_LEN(320-2)
     )
     DWRowBuff_inst (
       .clk          (clk          ),
       .rstn         (rstn         ),
       .data_in      (data_in      ),
       .valid_in     (valid_in     ),
-      .data_out     (row_buff_out  ),
+      .data_out     (row_buff_out ),
+      .valid_out    (row_buff_valid_out), 
       .buff_len_ctrl(buff_len_ctrl),
       .buff_len_rst (buff_len_rst )
     );
 
     DWConvWinGen # (
-      .OUT_CHANNEL_NUM(OUT_CHANNEL_NUM ),
-      .DATA_WIDTH(DATA_WIDTH ),
-      .IN_CHANNEL_NUM (IN_CHANNEL_NUM )
+      .OUT_CHANNEL_NUM(18),
+      .DATA_WIDTH(8),
+      .IN_CHANNEL_NUM (9)
     )
     DWConvWinGen_inst (
       .clk (clk ),
       .rstn (rstn ),
       .data_in (row_buff_out ),
-      .valid_in (valid_in ),
+      .valid_in (row_buff_valid_out),
       .win_reg (win_reg ),
-      .vailid_out  ( vailid_out)
+      .valid_out  (valid_out)
     );
 
 

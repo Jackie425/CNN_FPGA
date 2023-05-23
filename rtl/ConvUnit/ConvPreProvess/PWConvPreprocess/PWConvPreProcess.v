@@ -26,7 +26,7 @@ module PWConvPreProcess # (
 
     always @(posedge clk or negedge rstn) begin
         if(!rstn) begin
-            data_out <= data_in[71:0];
+            data_out <= 72'b0;
         end else if(cnt == 1'b0) begin
             data_out <= data_in[71:0];
         end else begin

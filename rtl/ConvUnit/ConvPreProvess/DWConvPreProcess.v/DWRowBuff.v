@@ -22,7 +22,6 @@ module DWRowBuff # (
 
     reg     [DEPTH-1:0]                                     addr_in;
     reg     [DEPTH-1:0]                                     addr_out;
-    wire    [OUT_CHANNEL_NUM*IN_CHANNEL_NUM*DATA_WIDTH-1:0] win_reg;
     wire    [OUT_CHANNEL_NUM*DATA_WIDTH-1:0]                row1_data_out;
     wire    [OUT_CHANNEL_NUM*DATA_WIDTH-1:0]                row2_data_out;
 
@@ -39,39 +38,25 @@ module DWRowBuff # (
         end else if(addr_out == DEPTH - 1'b1) begin
             addr_in  <= addr_in + 1'b1;
             addr_out <= 0;
-        end else begin
+        end else if(valid_in) begin
             addr_in  <= addr_in  + 1'b1;
             addr_out <= addr_out + 1'b1;
         end
     end
 
-    DRM_144_512 DRM_144_512_row1_inst (
-        .wr_data(data_in),        // input [143:0]
+    DRM_288_512 Row_Buff_DRM_inst (
+        .wr_data({data_in,row1_data_out}),        // input [287:0]
         .wr_addr(addr_in),        // input [8:0]
         .wr_en(valid_in),            // input
-        .wr_clk(clk),          // input
+        .wr_clk(CLK),          // input
         .wr_clk_en(1'b1),    // input
         .wr_rst(~rstn),          // input
         .rd_addr(addr_out),        // input [8:0]
-        .rd_data(row1_data_out),        // output [143:0]
+        .rd_data({row1_data_out,row2_data_out}),        // output [287:0]
         .rd_clk(clk),          // input
         .rd_clk_en(1'b1),    // input
         .rd_rst(~rstn)           // input
-    );
-
-    DRM_144_512 DRM_144_512_row2_inst (
-        .wr_data(row1_data_out),        // input [143:0]
-        .wr_addr(addr_in),        // input [8:0]
-        .wr_en(valid_in),            // input
-        .wr_clk(clk),          // input
-        .wr_clk_en(1'b1),    // input
-        .wr_rst(~rstn),          // input
-        .rd_addr(addr_out),        // input [8:0]
-        .rd_data(row2_data_out),        // output [143:0]
-        .rd_clk(clk),          // input
-        .rd_clk_en(1'b1),    // input
-        .rd_rst(~rstn)           // input
-    );
-
-      assign data_out = {row2_data_out,row1_data_out,data_in};
+      );
+      
+    assign data_out = {row2_data_out,row1_data_out,data_in};
 endmodule
