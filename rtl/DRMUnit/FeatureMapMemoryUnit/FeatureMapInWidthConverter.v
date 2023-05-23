@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module FeatureMapWidthConverter # (
+module FeatureMapInWidthConverter # (
     parameter   WIDTH_IN            =   256                 ,
     parameter   WIDTH_CONVERT       =   288                 ,
     parameter   WIDTH_OUT           =   144                 ,

@@ -19,7 +19,8 @@ module FeatureMapMemoryTop # (
     input   wire                                        Conv_wr_valid   ,
     input   wire    [DDR_WIDTH-1:0]                     DDR_wr_data     ,
     input   wire                                        DDR_wr_valid    ,
-    output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       rd_data         ,
+    output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       Conv_rd_data    ,
+    output  wire    [DDR_WIDTH-1:0]                     DDR_rd_data     ,
     //control path
     input   wire    [2:0]                               current_state   ,
     output  wire                                        state_rst       ,
@@ -47,20 +48,20 @@ module FeatureMapMemoryTop # (
         .wr_clk_en(1'b1),    // input
         .wr_rst(~rstn),          // input
         .rd_addr(rd_addr),        // input [12:0]
-        .rd_data(rd_data),        // output [143:0]
+        .rd_data(Conv_rd_data),        // output [143:0]
         .rd_clk(calc_clk),          // input
         .rd_clk_en(1'b1),    // input
         .rd_rst(~rstn)           // input
     );
 
-    FeatureMapWidthConverter # (
+    FeatureMapInWidthConverter # (
       .WIDTH_IN(256),
       .WIDTH_CONVERT(288),
       .WIDTH_OUT(144),
       .NUM_IN(9),
       .NUM_OUT(8)
     )
-    FeatureMapWidthConverter_inst (
+    FeatureMapInWidthConverter_inst (
       .sys_clk  (sys_clk),
       .calc_clk (calc_clk),
       .rstn     (rstn),

@@ -1,16 +1,17 @@
 `timescale 1ns / 1ps
 
 module top (
-    input   wire                        sys_clk                 ,
-    input   wire                        calc_clk             , 
-    input   wire                        rstn                ,
+    input   wire                            clk                 ,
+    input   wire                            rstn                ,
 //control path in   
     input   wire    [255:0]                 DDR_data_in         ,
     input   wire                            DDR_valid_in        ,
-    input   wire                            Conv_data_valid_in  ,
+    output  wire    [255:0]                 DDR_data_out        ,
+    output  wire                            DDR_valid_out       , 
     output  wire    [143:0]                 Conv_data_out       ,
     output  wire                            Conv_data_valid_out ,
     //********************************************************
+    input   wire                            Conv_data_valid_in  ,
     input   wire                            adder_rst           ,
     input   wire    [4-1:0]                 Conv_scale_in       ,
     input   wire    [9-1:0]                 buff_len_ctrl       ,
@@ -28,7 +29,7 @@ module top (
     input   wire    [9-1:0]                 bm_addr_rd          ,
     input   wire                            bias_out_valid      ,
     //*********************************************************
-    input   wire                            current_state       ,
+    input   wire    [2:0]                   current_state       ,
     output  wire                            state_rst
 );
 
@@ -40,6 +41,15 @@ module top (
     wire                Weight_valid;
     wire    [287:0]     Bias_data;
     wire                Bias_valid;
+    wire                sys_clk;
+
+    assign sys_clk = clk;
+    PLL_CLK PLL_CLK_inst (
+        .clkin1(clk),        // input
+        .pll_lock(pll_lock),    // output
+        .clkout0(calc_clk)       // output
+    );
+//*****************************************
 /*
     StateMachine StateMachine_inst(
         .clk          (sys_clk),
@@ -48,9 +58,10 @@ module top (
         .current_state(current_state)
     );
 */
+//*****************************************
     ConvUnit # (
-        .CONV_IN_NUM         (9  ),
-        .CONV_OUT_NUM        (18 ),
+        .CONV_IN_NUM        (9  ),
+        .CONV_OUT_NUM       (18 ),
         .APM_COL_NUM        (9  ),
         .APM_ROW_NUM        (9  ),
         .DATA_WIDTH         (8  ),
@@ -58,16 +69,16 @@ module top (
         .BIAS_WIDTH         (16 )
     )
     ConvUnit_inst(
-        .clk                (calc_clk                ),
+        .clk                (calc_clk           ),
         .rstn               (rstn               ),
-        .Conv_data_in        (Conv_data_in        ),
-        .Conv_data_valid_in  (Conv_data_valid_in  ),
-        .Conv_weight_in      (Weight_data        ),
-        .Conv_weight_valid_in(Weight_valid       ),
-        .Conv_bias_in        (Bias_data        ),
-        .Conv_bias_valid_in  (Bias_valid  ),
-        .Conv_data_out       (Conv_data_out       ),
-        .Conv_data_valid_out (Conv_data_valid_out ),
+        .Conv_data_in        (Conv_data_in      ),
+        .Conv_data_valid_in  (Conv_data_valid_in),
+        .Conv_weight_in      (Weight_data       ),
+        .Conv_weight_valid_in(Weight_valid      ),
+        .Conv_bias_in        (Bias_data         ),
+        .Conv_bias_valid_in  (Bias_valid        ),
+        .Conv_data_out       (Conv_data_out     ),
+        .Conv_data_valid_out (Conv_data_valid_out),
         .current_state      (current_state      ),
         .state_rst          (state_rst          ),
         //********************************************************
@@ -138,7 +149,8 @@ module top (
         .Conv_wr_valid(Conv_data_valid_out),
         .DDR_wr_data (DDR_data_in),
         .DDR_wr_valid(DDR_valid_in),
-        .rd_data (Conv_data_in),
+        .Conv_rd_data (Conv_data_in),
+        .DDR_rd_data(DDR_data_out),
         .current_state (current_state),
         .state_rst    (state_rst),
         //********************************************************

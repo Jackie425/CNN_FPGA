@@ -28,6 +28,8 @@ module BiasMemoryTop # (
     wire    [BIAS_CHANNEL_WIDTH-1:0]    data_rd;
     */
 //*************************************************
+    wire [BIAS_CHANNEL_WIDTH-1:0]   data_rd;
+    
 //BiasDRM ROM IP Block 
    BiasDRM #(
         .BIAS_CHANNEL_WIDTH(BIAS_CHANNEL_WIDTH),
