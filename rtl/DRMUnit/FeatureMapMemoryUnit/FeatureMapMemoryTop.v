@@ -72,6 +72,7 @@ module FeatureMapMemoryTop # (
       .data_out (DDR_converter_data),
       .valid_out(DDR_converter_valid)
     );
+    
     FeatureMapOutWidthConverter # (
       .WIDTH_IN(144),
       .WIDTH_OUT(256),
