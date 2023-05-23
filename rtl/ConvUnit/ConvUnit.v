@@ -32,19 +32,22 @@ module ConvUnit # (
 //control path 
     input   wire    [2:0]                                       current_state               ,
     output  wire                                                state_rst                   ,
-//test top
+//********************************************************
     input   wire                                                adder_rst                   ,
     input   wire    [4-1:0]                                     Conv_scale_in               ,
     input   wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl               ,
     input   wire                                                buff_len_rst                ,
-    input   wire                                                PW_mode      
+    input   wire                                                PW_mode  
+    //********************************************************    
 );
     //control path inner
+//********************************************************
     //wire                                                adder_rst           ;
     //wire    [4-1:0]                                     Conv_scale_in       ;
     //wire    [ROW_BUFFER_DEPTH-1:0]                      buff_len_ctrl       ;
     //wire                                                buff_len_rst        ;
-    //wire                                                PW_mode             ;
+    //wire                                                PW_mode 
+//********************************************************            ;
     //data path inner
     wire    [CONV_OUT_NUM*CONV_IN_NUM*DATA_WIDTH-1:0]   NPU_data_in         ; 
     wire                                                NPU_data_valid_in   ;  
@@ -70,6 +73,7 @@ module ConvUnit # (
         .NPU_data_valid_out     (Conv_data_valid_out ),
         .adder_rst              (adder_rst          )            
     );
+    //********************************************************
     /*
     ConvCtrl # (
         .CONV_IN_NUM        (CONV_IN_NUM         ),
@@ -93,6 +97,7 @@ module ConvUnit # (
         .buff_len_rst (buff_len_rst )
     );
 */
+//********************************************************
     ConvPreProcess # (
       .CONV_IN_NUM(9),
       .CONV_OUT_NUM(18),

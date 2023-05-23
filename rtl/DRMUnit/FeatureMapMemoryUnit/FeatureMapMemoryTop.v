@@ -10,21 +10,26 @@ module FeatureMapMemoryTop # (
 
 )
 (
-    input   wire                                        clk       ,
+    input   wire                                        clk         ,
     input   wire                                        rstn         ,
     //data path
     input   wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       wr_data      ,
     output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       rd_data      ,
     //control path
     input   wire    [2:0]                               current_state,
-    output  wire                                        state_rst
+    output  wire                                        state_rst   ,
 
+//********************************************************
+    input   wire    [FM_MEM_DEPTH-1:0]                  wr_addr     ,
+    input   wire    [FM_MEM_DEPTH-1:0]                  rd_addr     ,
+    input   wire                                        wr_en  
+    //********************************************************
 );
-
-    wire    [FM_MEM_DEPTH-1:0]                  wr_addr     ;
-    wire    [FM_MEM_DEPTH-1:0]                  rd_addr     ;
-    wire                                        wr_en       ;
-
+//********************************************************
+   //wire    [FM_MEM_DEPTH-1:0]                  wr_addr     ;
+   //wire    [FM_MEM_DEPTH-1:0]                  rd_addr     ;
+   //wire                                        wr_en       ;
+//********************************************************
     DRM_W144_D13 DRM_W144_D13_inst (
         .wr_data(wr_data),        // input [143:0]
         .wr_addr(wr_addr),        // input [12:0]
@@ -38,7 +43,8 @@ module FeatureMapMemoryTop # (
         .rd_clk_en(1'b1),    // input
         .rd_rst(~rstn)           // input
     );
-
+//********************************************************
+    /*
     FeatureMapCtrl # (
       .WR_ADDR_DEPTH( 13 ),
       .RD_ADDR_DEPTH( 13 )
@@ -53,5 +59,6 @@ module FeatureMapMemoryTop # (
       .rd_addr  (rd_addr),
       .wr_en(wr_en)
     );
-
+    */
+//********************************************************
 endmodule

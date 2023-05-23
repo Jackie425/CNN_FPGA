@@ -9,11 +9,25 @@ module top (
     input   wire                            Conv_data_valid_in  ,
     output  wire    [143:0]                 Conv_data_out       ,
     output  wire                            Conv_data_valid_out ,
+    //********************************************************
     input   wire                            adder_rst           ,
     input   wire    [4-1:0]                 Conv_scale_in       ,
     input   wire    [9-1:0]                 buff_len_ctrl       ,
     input   wire                            buff_len_rst        ,
-    input   wire                            PW_mode      
+    input   wire                            PW_mode             ,
+    //********************************************************
+    input   wire    [13-1:0]                fm_wr_addr          ,
+    input   wire    [13-1:0]                fm_rd_addr          ,
+    input   wire                            fm_wr_en            ,
+    //********************************************************
+    input   wire    [10-1:0]                wm_addr_wr          ,
+    input   wire    [8-1:0]                 wm_addr_rd          ,
+    input   wire                            wm_cvt_rstn         ,
+    //********************************************************
+    input   wire    [9-1:0]                 bm_addr_rd          ,
+    input   wire                            bias_out_valid      ,
+    //*********************************************************
+    input   wire                            state_rst1
 );
 
 
@@ -27,7 +41,7 @@ module top (
     StateMachine StateMachine_inst(
         .clk          (clk),
         .rstn         (rstn),
-        .state_rst    (state_rst    ),
+        .state_rst    (state_rst1    ),
         .current_state(current_state)
     );
 
@@ -53,11 +67,13 @@ module top (
         .Conv_data_valid_out (Conv_data_valid_out ),
         .current_state      (current_state      ),
         .state_rst          (state_rst          ),
+        //********************************************************
         .adder_rst          (adder_rst    ),
         .Conv_scale_in      (Conv_scale_in),
         .buff_len_ctrl      (buff_len_ctrl),
         .buff_len_rst       (buff_len_rst ),
         .PW_mode            (PW_mode      )
+        //********************************************************
     );
 
     BiasMemoryTop # (
@@ -70,7 +86,11 @@ module top (
         .BiasMem_data_out (Bias_data  ),
         .BiasMem_valid_out(Bias_valid),
         .current_state    (current_state),
-        .state_rst        (state_rst    )
+        .state_rst        (state_rst    ),
+        //********************************************************
+        .addr_rd          (bm_addr_rd       ),
+        .bias_out_valid   (bias_out_valid)
+        //********************************************************
     );
 
     
@@ -91,7 +111,12 @@ module top (
         .WeightMem_data_out (Weight_data    ),
         .WeightMem_valid_out(Weight_valid   ), 
         .current_state      (current_state  ),
-        .state_rst          (state_rst      )
+        .state_rst          (state_rst      ),
+        //********************************************************
+        .addr_wr            (wm_addr_wr        ),
+        .addr_rd            (wm_addr_rd        ),
+        .cvt_rstn           (wm_cvt_rstn       )
+        //********************************************************
     );
 
     FeatureMapMemoryTop # (
@@ -103,12 +128,17 @@ module top (
       .FM_MEM_DEPTH(13)
     )
     FeatureMapMemoryTop_inst (
-      .clk (clk),
-      .rstn (rstn),
-      .wr_data (Conv_data_out),
-      .rd_data (Conv_data_in),
-      .current_state (current_state),
-      .state_rst    (state_rst)
+        .clk (clk),
+        .rstn (rstn),
+        .wr_data (Conv_data_out),
+        .rd_data (Conv_data_in),
+        .current_state (current_state),
+        .state_rst    (state_rst),
+        //********************************************************
+        .wr_addr(fm_wr_addr),
+        .rd_addr(fm_rd_addr),
+        .wr_en  (fm_wr_en  )
+        //********************************************************
     );
   
 

@@ -9,28 +9,35 @@ module WeightMemoryTop # (
     parameter       DRM_NUM                 =   9               
 )
 (
-    input  wire             sys_clk                                 ,//system clk 100M
-    input  wire             calc_clk                                ,//MAC clk 200M(100M)
-    input  wire             rstn                                    ,
+    input   wire             sys_clk                                 ,//system clk 100M
+    input   wire             calc_clk                                ,//MAC clk 200M(100M)
+    input   wire             rstn                                    ,
 //data path
-    input  wire     [DDR_RD_WIDTH-1:0]          DDR_data_in         ,
-    input  wire                                 DDR_valid_in        ,
+    input   wire     [DDR_RD_WIDTH-1:0]          DDR_data_in         ,
+    input   wire                                 DDR_valid_in        ,
 
-    output wire     [WEIGHT_CHANNEL_WIDTH-1:0]  WeightMem_data_out  ,
-    output wire                                 WeightMem_valid_out ,
+    output  wire     [WEIGHT_CHANNEL_WIDTH-1:0]  WeightMem_data_out  ,
+    output  wire                                 WeightMem_valid_out ,
 
 //control path
-    input  wire     [2:0]                       current_state       ,
-    output wire                                 state_rst           
+    input   wire     [2:0]                       current_state       ,
+    output  wire                                 state_rst           ,
+    //********************************************************
+    input   wire    [WR_ADDR_DEPTH-1:0]     addr_wr                     ,
+    input   wire    [RD_ADDR_DEPTH-1:0]     addr_rd                     ,
+    input   wire                            cvt_rstn    
+    //********************************************************
 );
 
 //data path inner 
     wire    [DRM_IN_WIDTH-1:0]      DRM_data_in;
     wire                            DRM_valid_in;
 //control path inner
-    wire    [WR_ADDR_DEPTH-1:0]     addr_wr;
-    wire    [RD_ADDR_DEPTH-1:0]     addr_rd;
-    wire                            cvt_rstn;
+    //********************************************************
+    //wire    [WR_ADDR_DEPTH-1:0]     addr_wr     ;
+    //wire    [RD_ADDR_DEPTH-1:0]     addr_rd     ;
+    //wire                            cvt_rstn    ;
+    //********************************************************
 //Width Converter from DDR_RD_256 to DRM_WR_324
     WeightWidthConverter # (
         .WIDTH_IN (DDR_RD_WIDTH),
@@ -65,6 +72,8 @@ module WeightMemoryTop # (
         .WeightDRM_addr_rd (addr_rd)
     );
 //Weight Control Unit
+    //*******************************************
+    /*
     WeightCtrl #(
         .WR_ADDR_DEPTH(WR_ADDR_DEPTH),
         .RD_ADDR_DEPTH(RD_ADDR_DEPTH)
@@ -79,4 +88,6 @@ module WeightMemoryTop # (
         .addr_wr      (addr_wr),
         .addr_rd      (addr_rd)
     );
+    */
+    //*******************************************
 endmodule
