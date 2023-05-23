@@ -16,14 +16,16 @@ module DWConvWinGen # (
 
     integer i,j;
     always @(posedge clk or negedge rstn) begin
-        for(j = 0 ; j < OUT_CHANNEL_NUM ; j = j + 1) begin
-            for(i = 0 ; i < IN_CHANNEL_NUM ; i = i + 1) begin
-                if(!rstn) begin
-                    win_reg <= 1296'b0;
-                end else if(i!=0 && i!=3 && i!=6)begin
-                    win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH) +: DATA_WIDTH] <= win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+(i-1)*DATA_WIDTH) +: DATA_WIDTH];
-                end else begin
-                    win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH) +: DATA_WIDTH] <= data_in[(j*3*DATA_WIDTH+i/3*DATA_WIDTH) +: DATA_WIDTH];
+        if(!rstn) begin
+            win_reg <= 1296'b0;
+        end else begin
+            for(j = 0 ; j < OUT_CHANNEL_NUM ; j = j + 1) begin
+                for(i = 0 ; i < IN_CHANNEL_NUM ; i = i + 1) begin
+                    if(i!=0 && i!=3 && i!=6)begin
+                        win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH) +: DATA_WIDTH] <= win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+(i-1)*DATA_WIDTH) +: DATA_WIDTH];
+                    end else begin
+                        win_reg[(j*IN_CHANNEL_NUM*DATA_WIDTH+i*DATA_WIDTH) +: DATA_WIDTH] <= data_in[(j*3*DATA_WIDTH+i/3*DATA_WIDTH) +: DATA_WIDTH];
+                    end
                 end
             end
         end

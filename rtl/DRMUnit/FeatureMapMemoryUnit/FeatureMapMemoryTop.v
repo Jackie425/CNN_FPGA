@@ -6,43 +6,77 @@ module FeatureMapMemoryTop # (
     parameter           DATA_WIDTH              =   8                                    ,
     parameter           WEIGHT_WIDTH            =   8                                    ,
     parameter           BIAS_WIDTH              =   16                                   ,
-    parameter           FM_MEM_DEPTH            =   13  
+    parameter           FM_MEM_DEPTH            =   13                                   ,
+    parameter           DDR_WIDTH               =   256
 
 )
 (
-    input   wire                                        clk         ,
-    input   wire                                        rstn         ,
+    input   wire                                        sys_clk         ,
+    input   wire                                        calc_clk        ,
+    input   wire                                        rstn            ,
     //data path
-    input   wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       wr_data      ,
-    output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       rd_data      ,
+    input   wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       Conv_wr_data    ,
+    input   wire                                        Conv_wr_valid   ,
+    input   wire    [DDR_WIDTH-1:0]                     DDR_wr_data     ,
+    input   wire                                        DDR_wr_valid    ,
+    output  wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       rd_data         ,
     //control path
-    input   wire    [2:0]                               current_state,
-    output  wire                                        state_rst   ,
+    input   wire    [2:0]                               current_state   ,
+    output  wire                                        state_rst       ,
 
 //********************************************************
-    input   wire    [FM_MEM_DEPTH-1:0]                  wr_addr     ,
-    input   wire    [FM_MEM_DEPTH-1:0]                  rd_addr     ,
-    input   wire                                        wr_en  
+    input   wire    [FM_MEM_DEPTH-1:0]                  wr_addr         ,
+    input   wire    [FM_MEM_DEPTH-1:0]                  rd_addr         ,
+    input   wire                                        fm_DDR_wr              
     //********************************************************
 );
 //********************************************************
    //wire    [FM_MEM_DEPTH-1:0]                  wr_addr     ;
    //wire    [FM_MEM_DEPTH-1:0]                  rd_addr     ;
-   //wire                                        wr_en       ;
 //********************************************************
+    wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       DDR_converter_data;
+    wire                                        DDR_converter_valid;
+    wire    [CONV_OUT_NUM*DATA_WIDTH-1:0]       wr_data;
+    wire                                        wr_en;
+
     DRM_W144_D13 DRM_W144_D13_inst (
         .wr_data(wr_data),        // input [143:0]
         .wr_addr(wr_addr),        // input [12:0]
         .wr_en(wr_en),            // input
-        .wr_clk(clk),          // input
+        .wr_clk(calc_clk),          // input
         .wr_clk_en(1'b1),    // input
         .wr_rst(~rstn),          // input
         .rd_addr(rd_addr),        // input [12:0]
         .rd_data(rd_data),        // output [143:0]
-        .rd_clk(clk),          // input
+        .rd_clk(calc_clk),          // input
         .rd_clk_en(1'b1),    // input
         .rd_rst(~rstn)           // input
     );
+
+    FeatureMapWidthConverter # (
+      .WIDTH_IN(256),
+      .WIDTH_CONVERT(288),
+      .WIDTH_OUT(144),
+      .NUM_IN(9),
+      .NUM_OUT(8)
+    )
+    FeatureMapWidthConverter_inst (
+      .sys_clk  (sys_clk),
+      .calc_clk (calc_clk),
+      .rstn     (rstn),
+      .data_in  (DDR_wr_data),
+      .valid_in (DDR_wr_valid),
+      .data_out (DDR_converter_data),
+      .valid_out(DDR_converter_valid)
+    );
+
+    //FeatureMapMemory write MUX
+    assign wr_data = fm_DDR_wr ? DDR_converter_data : Conv_wr_data;
+    assign wr_en = DDR_converter_valid | Conv_wr_valid;
+
+
+
+
 //********************************************************
     /*
     FeatureMapCtrl # (

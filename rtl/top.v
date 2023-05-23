@@ -1,7 +1,8 @@
 `timescale 1ns / 1ps
 
 module top (
-    input   wire                        clk                 ,
+    input   wire                        sys_clk                 ,
+    input   wire                        calc_clk             , 
     input   wire                        rstn                ,
 //control path in   
     input   wire    [255:0]                 DDR_data_in         ,
@@ -18,7 +19,7 @@ module top (
     //********************************************************
     input   wire    [13-1:0]                fm_wr_addr          ,
     input   wire    [13-1:0]                fm_rd_addr          ,
-    input   wire                            fm_wr_en            ,
+    input   wire                            fm_DDR_wr           ,
     //********************************************************
     input   wire    [10-1:0]                wm_addr_wr          ,
     input   wire    [8-1:0]                 wm_addr_rd          ,
@@ -27,24 +28,26 @@ module top (
     input   wire    [9-1:0]                 bm_addr_rd          ,
     input   wire                            bias_out_valid      ,
     //*********************************************************
-    input   wire                            state_rst1
+    input   wire                            current_state       ,
+    output  wire                            state_rst
 );
 
-
-    wire    [2:0]       current_state;
-    wire                state_rst; 
+//*****************************************
+   // wire    [2:0]       current_state;
+   // wire                state_rst; 
+//*****************************************
     wire    [1295:0]    Weight_data;
     wire                Weight_valid;
     wire    [287:0]     Bias_data;
     wire                Bias_valid;
-
+/*
     StateMachine StateMachine_inst(
-        .clk          (clk),
+        .clk          (sys_clk),
         .rstn         (rstn),
-        .state_rst    (state_rst1    ),
+        .state_rst    (state_rst    ),
         .current_state(current_state)
     );
-
+*/
     ConvUnit # (
         .CONV_IN_NUM         (9  ),
         .CONV_OUT_NUM        (18 ),
@@ -55,7 +58,7 @@ module top (
         .BIAS_WIDTH         (16 )
     )
     ConvUnit_inst(
-        .clk                (clk                ),
+        .clk                (calc_clk                ),
         .rstn               (rstn               ),
         .Conv_data_in        (Conv_data_in        ),
         .Conv_data_valid_in  (Conv_data_valid_in  ),
@@ -81,7 +84,7 @@ module top (
         .RD_ADDR_DEPTH     (9  )
     )
     BiasMemoryTop_inst(
-        .clk              (clk          ),
+        .clk              (calc_clk          ),
         .rstn             (rstn         ),
         .BiasMem_data_out (Bias_data  ),
         .BiasMem_valid_out(Bias_valid),
@@ -103,19 +106,19 @@ module top (
         .DRM_NUM             (9   )         
     )
     WeightMemoryTop_inst(
-        .sys_clk            (clk            ),
-        .calc_clk           (clk            ),
+        .sys_clk            (sys_clk            ),
+        .calc_clk           (calc_clk            ),
         .rstn               (rstn           ),
         .DDR_data_in        (DDR_data_in    ),
         .DDR_valid_in       (DDR_valid_in   ),
         .WeightMem_data_out (Weight_data    ),
-        .WeightMem_valid_out(Weight_valid   ), 
+        .WeightMem_valid_out(Weight_valid   ),
         .current_state      (current_state  ),
         .state_rst          (state_rst      ),
         //********************************************************
-        .addr_wr            (wm_addr_wr        ),
-        .addr_rd            (wm_addr_rd        ),
-        .cvt_rstn           (wm_cvt_rstn       )
+        .addr_wr            (wm_addr_wr     ),
+        .addr_rd            (wm_addr_rd     ),
+        .cvt_rstn           (wm_cvt_rstn    )
         //********************************************************
     );
 
@@ -128,16 +131,20 @@ module top (
       .FM_MEM_DEPTH(13)
     )
     FeatureMapMemoryTop_inst (
-        .clk (clk),
+        .sys_clk (sys_clk),
+        .calc_clk(calc_clk),
         .rstn (rstn),
-        .wr_data (Conv_data_out),
+        .Conv_wr_data(Conv_data_out),
+        .Conv_wr_valid(Conv_data_valid_out),
+        .DDR_wr_data (DDR_data_in),
+        .DDR_wr_valid(DDR_valid_in),
         .rd_data (Conv_data_in),
         .current_state (current_state),
         .state_rst    (state_rst),
         //********************************************************
         .wr_addr(fm_wr_addr),
         .rd_addr(fm_rd_addr),
-        .wr_en  (fm_wr_en  )
+        .fm_DDR_wr(fm_DDR_wr)
         //********************************************************
     );
   
