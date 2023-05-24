@@ -40,9 +40,13 @@
 ##### - 模型状态总控制器
 ![Top](\images\TopArchitechture.jpg "Top")
 ## 量化分析计算吞吐和内存带宽
-![Roofline](\images\Roofline.png "Roofline")
-## 1.NPUCore卷积乘加核心单元
 
+$$
+Attainable\  Perf.=min\begin{cases} Computational\ Roof\\ \  CTC\  Ratio\times BW
+\end{cases}
+$$
+
+## 1.NPUCore卷积乘加核心单元
 
 
 **由以下部件组成：**
