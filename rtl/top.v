@@ -6,12 +6,11 @@ module top #(
 	parameter MEM_BADDR_WIDTH      = 3                  ,
 	parameter MEM_DQ_WIDTH         = 32                 ,
 	parameter MEM_DQS_WIDTH        = MEM_DQ_WIDTH/8     ,//4
-    parameter CTRL_ADDR_WIDTH =   MEM_ROW_ADDR_WIDTH + MEM_BADDR_WIDTH + MEM_COL_ADDR_WIDTH//28
+    parameter CTRL_ADDR_WIDTH      =   MEM_ROW_ADDR_WIDTH + MEM_BADDR_WIDTH + MEM_COL_ADDR_WIDTH//28
 )
 (
     input   wire                            clk                 ,
     input   wire                            rstn                ,
-//control path in   
 //DDR
     output                                  mem_rst_n                 ,
     output                                  mem_ck                    ,
@@ -30,6 +29,7 @@ module top #(
     output      [MEM_DQ_WIDTH/8-1:0]        mem_dm                    ,
     output reg                              heart_beat_led            ,
     output                                  ddr_init_done             ,
+//control path in
     //********************************************************
     input   wire                            Conv_data_valid_in  ,
     input   wire                            adder_rst           ,
@@ -63,6 +63,7 @@ module top #(
     wire    [287:0]     Bias_data;
     wire                Bias_valid;
     wire                sys_clk;
+    //********************************************************
     wire    [255:0]     DDR_data_in         ;
     wire                DDR_valid_in        ;
     wire    [255:0]     DDR_data_out        ;
@@ -91,8 +92,6 @@ module top #(
     wire                        axi_rvalid                  /* synthesis syn_keep = 1 */;
     wire [3:0]                  axi_rid                    ;
     wire                        axi_rlast                  ;
-    reg  [26:0]                 cnt                        ;
-    reg  [15:0]                 cnt_1                      ;
 /////////////////////////////////////////////////////////////////////////////////////
     assign sys_clk = clk;
     PLL_CLK PLL_CLK_inst (
@@ -215,8 +214,8 @@ module top #(
   
 //ddr    
     DDR3_50H u_DDR3_50H (
-        .ref_clk                   (sys_clk            ),
-        .resetn                    (rstn_out           ),// input
+        .ref_clk                   (sys_clk            ),// input
+        .resetn                    (rstn           ),// input
         .ddr_init_done             (ddr_init_done      ),// output
         .ddrphy_clkin              (core_clk           ),// output
         .pll_lock                  (pll_lock           ),// output
