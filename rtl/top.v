@@ -25,7 +25,7 @@ module top #(
     output      [MEM_BADDR_WIDTH-1:0]       mem_ba                    ,
     inout       [MEM_DQ_WIDTH/8-1:0]        mem_dqs                   ,
     inout       [MEM_DQ_WIDTH/8-1:0]        mem_dqs_n                 ,
-    inout       [MEM_DQ_WIDTH-1:0]          mem_dq                    ,
+    inout       [MEM_DQ_WIDTH-1:0]          mem_dq                    ,//32
     output      [MEM_DQ_WIDTH/8-1:0]        mem_dm                    ,
     output reg                              heart_beat_led            ,
     output                                  ddr_init_done             ,
@@ -63,13 +63,14 @@ module top #(
     wire    [287:0]     Bias_data;
     wire                Bias_valid;
     wire                sys_clk;
-    //********************************************************
+    wire    [143:0]     Conv_data_out       ;
+    wire                Conv_data_valid_out ;
+//********************************************************
     wire    [255:0]     DDR_data_in         ;
     wire                DDR_valid_in        ;
     wire    [255:0]     DDR_data_out        ;
     wire                DDR_valid_out       ;
-    wire    [143:0]     Conv_data_out       ;
-    wire                Conv_data_valid_out ;
+//********************************************************
     //axi bus   
     wire [CTRL_ADDR_WIDTH-1:0]  axi_awaddr                 ;
     wire                        axi_awuser_ap              ;
@@ -212,7 +213,7 @@ module top #(
         //********************************************************
     );
   
-//ddr    
+//DDR    
     DDR3_50H u_DDR3_50H (
         .ref_clk                   (sys_clk            ),// input
         .resetn                    (rstn           ),// input
@@ -284,4 +285,5 @@ module top #(
         .update_com_val_err_flag   (                   ),// output [3:0]
         .rd_fake_stop              (1'b0               ) // input
   );
+
 endmodule
