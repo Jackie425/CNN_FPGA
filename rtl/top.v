@@ -203,7 +203,7 @@ module top #(
         .Conv_rd_data (Conv_data_in),
         .Conv_rd_valid(Conv_data_valid_in),
         .DDR_rd_data(DDR_data_out),
-        .DDR_rd_valid(DDR_rd_valid),
+        .DDR_rd_valid(DDR_valid_out),
         .current_state (current_state),
         .state_rst    (state_rst),
         //********************************************************

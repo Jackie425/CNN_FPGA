@@ -1,4 +1,4 @@
-module DDR_wr_rd_ctrl_top # (
+module DDRWrRdCtrlTop # (
     parameter                    CTRL_ADDR_WIDTH      = 28,
     parameter                    MEM_DQ_WIDTH         = 32
 ) (
@@ -14,17 +14,17 @@ module DDR_wr_rd_ctrl_top # (
     output                       wr_bac,
     input  [MEM_DQ_WIDTH*8-1:0]  wr_ctrl_data,
     output                       wr_data_re  ,
-    
+
     input                        rd_cmd_en   ,
     input  [CTRL_ADDR_WIDTH-1:0] rd_cmd_addr ,
     input  [31: 0]               rd_cmd_len  ,
     output                       rd_cmd_ready, 
     output                       rd_cmd_done,
-    
+
     input                        read_ready  /* synthesis PAP_MARK_DEBUG="true" */,    
     output [MEM_DQ_WIDTH*8-1:0]  read_rdata  /* synthesis PAP_MARK_DEBUG="true" */,    
     output                       read_en     /* synthesis PAP_MARK_DEBUG="true" */,    
-                                      
+
     // write channel                            
     output [CTRL_ADDR_WIDTH-1:0] axi_awaddr  ,  
     output [3:0]                 axi_awid    ,
@@ -76,10 +76,10 @@ module DDR_wr_rd_ctrl_top # (
     wire [3:0]                  rd_len     /* synthesis PAP_MARK_DEBUG="true" */;            
     wire                        rd_done_p  /* synthesis PAP_MARK_DEBUG="true" */;   
 
-    wr_cmd_trans#(
+    WrCmdTrans #(
         .CTRL_ADDR_WIDTH  (  CTRL_ADDR_WIDTH  ),//parameter                    CTRL_ADDR_WIDTH      = 28,
         .MEM_DQ_WIDTH     (  MEM_DQ_WIDTH     ) //parameter                    MEM_DQ_WIDTH         = 16
-    ) wr_cmd_trans (                      
+    ) WrCmdTrans (                      
         .clk              (  clk              ),//input                        clk            ,
         .rstn             (  rstn             ),//input                        rstn           ,
                     
@@ -115,10 +115,10 @@ module DDR_wr_rd_ctrl_top # (
         .rd_done_p        (  rd_done_p        ) //input                            rd_done_p     
     );
 
-    wr_ctrl #(
+    WrCtrl #(
         .CTRL_ADDR_WIDTH  (  CTRL_ADDR_WIDTH  ),//parameter                            CTRL_ADDR_WIDTH      = 28,
         .MEM_DQ_WIDTH     (  MEM_DQ_WIDTH     ) //parameter                            MEM_DQ_WIDTH         = 16
-    )wr_ctrl(                        
+    )WrCtrl(                        
         .clk              (  clk              ),//input                                clk              ,
         .rst_n            (  rstn             ),//input                                rst_n            , 
                                               
@@ -152,10 +152,10 @@ module DDR_wr_rd_ctrl_top # (
         .test_wr_state    (                   ) //output reg [2:0]                     test_wr_state
     );
 
-    rd_ctrl #(
+    RdCtrl #(
         .CTRL_ADDR_WIDTH  (  CTRL_ADDR_WIDTH  ),//parameter                            CTRL_ADDR_WIDTH      = 28,
         .MEM_DQ_WIDTH     (  MEM_DQ_WIDTH     ) //parameter                            MEM_DQ_WIDTH         = 16 
-    )rd_ctrl(                               
+    )RdCtrl(                               
         .clk              (  clk              ),//input                                clk             ,
         .rst_n            (  rstn             ),//input                                rst_n           ,   
                                                                                   
