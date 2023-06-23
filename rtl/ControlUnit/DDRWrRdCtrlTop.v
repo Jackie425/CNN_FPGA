@@ -9,6 +9,7 @@ module DDRWrRdCtrlTop # (
     input  [CTRL_ADDR_WIDTH-1:0] wr_cmd_addr ,
     input  [31: 0]               wr_cmd_len  ,
     output                       wr_cmd_ready,
+    //wr_cmd_ready在内部默认初始化一直拉高
     output                       wr_cmd_done,
     
     output                       wr_bac,
@@ -21,7 +22,8 @@ module DDRWrRdCtrlTop # (
     output                       rd_cmd_ready, 
     output                       rd_cmd_done,
 
-    input                        read_ready  /* synthesis PAP_MARK_DEBUG="true" */,    
+    input                        read_ready  /* synthesis PAP_MARK_DEBUG="true" */,
+    //read_ready在内部根本没用到  
     output [MEM_DQ_WIDTH*8-1:0]  read_rdata  /* synthesis PAP_MARK_DEBUG="true" */,    
     output                       read_en     /* synthesis PAP_MARK_DEBUG="true" */,    
 
@@ -86,7 +88,7 @@ module DDRWrRdCtrlTop # (
         .wr_cmd_en        (  wr_cmd_en        ),//input                            wr_cmd_en,
         .wr_cmd_addr      (  wr_cmd_addr      ),//input  [CTRL_ADDR_WIDTH-1:0]     wr_cmd_addr,
         .wr_cmd_len       (  wr_cmd_len       ),//input  [31：0]                   wr_cmd_len,
-        .wr_cmd_ready     (  wr_cmd_ready     ),//output reg                       wr_cmd_ready,
+        .wr_cmd_ready     (  wr_cmd_ready     ),//output reg                       wr_cmd_ready, 
         .wr_cmd_done      (  wr_cmd_done      ),//output reg                       wr_cmd_done,
         .wr_bac           (  wr_bac           ),//input                            wr_bac,                                
         .wr_ctrl_data     (  wr_ctrl_data     ),//input  [MEM_DQ_WIDTH*8-1:0]      wr_ctrl_data,
